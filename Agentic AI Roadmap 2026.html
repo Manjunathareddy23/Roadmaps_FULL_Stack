@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agentic AI Roadmap 2026</title>
+<style>
+  :root{
+    --bg:#0b0f17;
+    --panel:#121826;
+    --panel-2:#171f30;
+    --border:#232c40;
+    --text:#e7ecf5;
+    --text-dim:#9aa6bd;
+    --accent:#7c9cff;
+    --accent-2:#5eead4;
+    --accent-3:#f6ad55;
+    --accent-4:#f472b6;
+    --done:#34d399;
+    --radius:14px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);}
+  body{padding-bottom:80px;}
+  a{color:var(--accent);}
+
+  .hero{
+    padding:56px 24px 36px;
+    text-align:center;
+    background:
+      radial-gradient(900px 400px at 20% -10%, rgba(124,156,255,0.25), transparent 60%),
+      radial-gradient(900px 400px at 85% -10%, rgba(94,234,212,0.18), transparent 60%),
+      var(--bg);
+    border-bottom:1px solid var(--border);
+  }
+  .hero h1{
+    font-size:clamp(28px,5vw,44px);
+    margin:0 0 10px;
+    background:linear-gradient(90deg, var(--accent), var(--accent-2));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    letter-spacing:-0.5px;
+  }
+  .hero p{color:var(--text-dim);max-width:720px;margin:0 auto;font-size:15px;line-height:1.6;}
+
+  .flow{
+    display:flex;flex-wrap:wrap;justify-content:center;gap:8px;
+    max-width:980px;margin:28px auto 0;
+  }
+  .flow span{
+    background:var(--panel);border:1px solid var(--border);
+    padding:6px 14px;border-radius:999px;font-size:13px;color:var(--text);
+  }
+  .flow .arrow{color:var(--text-dim);display:flex;align-items:center;padding:0;}
+
+  .progress-wrap{
+    max-width:980px;margin:28px auto 0;padding:0 16px;
+  }
+  .progress-bar{
+    height:10px;border-radius:999px;background:var(--panel);border:1px solid var(--border);overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));width:0%;transition:width .3s ease;
+  }
+  .progress-label{
+    display:flex;justify-content:space-between;font-size:12px;color:var(--text-dim);margin-top:6px;
+  }
+
+  .container{max-width:980px;margin:0 auto;padding:36px 16px 0;}
+
+  .example-box{
+    background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+    padding:20px 22px;margin-bottom:34px;
+  }
+  .example-box h3{margin:0 0 10px;font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-2);}
+  .example-grid{display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:center;}
+  @media (max-width:640px){.example-grid{grid-template-columns:1fr;}}
+  .example-col{background:var(--panel-2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-size:13.5px;color:var(--text-dim);}
+  .example-col b{color:var(--text);display:block;margin-bottom:6px;}
+  .example-col ol{margin:6px 0 0;padding-left:18px;}
+  .example-arrow{text-align:center;color:var(--accent);font-size:20px;}
+
+  .phase{
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    background:var(--panel);
+    margin-bottom:16px;
+    overflow:hidden;
+  }
+  .phase-head{
+    display:flex;align-items:center;gap:14px;
+    padding:18px 20px;cursor:pointer;user-select:none;
+  }
+  .phase-num{
+    flex:0 0 auto;width:38px;height:38px;border-radius:10px;
+    display:flex;align-items:center;justify-content:center;
+    font-weight:700;font-size:14px;color:#0b0f17;
+  }
+  .phase-title{flex:1 1 auto;}
+  .phase-title .t{font-weight:600;font-size:16px;}
+  .phase-title .d{font-size:12.5px;color:var(--text-dim);margin-top:2px;}
+  .phase-meta{display:flex;align-items:center;gap:10px;flex:0 0 auto;}
+  .duration-chip{
+    font-size:11.5px;background:var(--panel-2);border:1px solid var(--border);
+    padding:4px 10px;border-radius:999px;color:var(--text-dim);white-space:nowrap;
+  }
+  .chevron{transition:transform .25s ease;color:var(--text-dim);}
+  .phase.open .chevron{transform:rotate(180deg);}
+
+  .phase-body{
+    max-height:0;overflow:hidden;transition:max-height .35s ease;
+    border-top:1px solid transparent;
+  }
+  .phase.open .phase-body{border-top-color:var(--border);}
+  .phase-body-inner{padding:20px 22px 24px;}
+
+  .why{
+    font-size:13.5px;color:var(--text-dim);background:var(--panel-2);
+    border-left:3px solid var(--accent);border-radius:8px;padding:10px 14px;margin-bottom:18px;
+  }
+
+  .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;}
+  .col h4{
+    margin:0 0 10px;font-size:12.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--accent-2);
+  }
+  .item{
+    display:flex;align-items:flex-start;gap:8px;padding:6px 0;font-size:13.8px;line-height:1.45;
+  }
+  .item input{margin-top:3px;flex:0 0 auto;accent-color:var(--done);width:15px;height:15px;cursor:pointer;}
+  .item label{cursor:pointer;flex:1;}
+  .item label.checked{color:var(--text-dim);text-decoration:line-through;}
+
+  .code{
+    background:var(--panel-2);border:1px solid var(--border);border-radius:8px;
+    padding:12px 14px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:12.5px;color:var(--accent-2);white-space:pre-wrap;margin:14px 0;
+  }
+
+  .project{
+    margin-top:16px;background:linear-gradient(135deg, rgba(124,156,255,0.08), rgba(94,234,212,0.05));
+    border:1px solid var(--border);border-radius:10px;padding:14px 16px;
+  }
+  .project b{color:var(--accent-3);font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;}
+  .project p{margin:6px 0 0;font-size:13.5px;color:var(--text-dim);line-height:1.5;}
+
+  .legend{
+    display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:18px auto 0;max-width:980px;padding:0 16px;
+  }
+  .legend span{font-size:12px;color:var(--text-dim);display:flex;align-items:center;gap:6px;}
+  .dot{width:9px;height:9px;border-radius:50%;}
+
+  footer{
+    text-align:center;color:var(--text-dim);font-size:12.5px;padding:30px 16px 10px;
+  }
+
+  .reset-btn{
+    display:block;margin:26px auto 0;background:var(--panel-2);border:1px solid var(--border);
+    color:var(--text-dim);padding:8px 16px;border-radius:999px;font-size:12.5px;cursor:pointer;
+  }
+  .reset-btn:hover{color:var(--text);border-color:var(--accent);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Agentic AI Roadmap · 2026</h1>
+  <p>A complete, structured path from LLM fundamentals to production multi-agent systems — frameworks, protocols, evaluation, and deployment. Click a phase to expand it, check off topics as you learn them.</p>
+
+  <div class="flow">
+    <span>User Goal</span><span class="arrow">→</span>
+    <span>AI Agent</span><span class="arrow">→</span>
+    <span>Planning</span><span class="arrow">→</span>
+    <span>Tool Usage</span><span class="arrow">→</span>
+    <span>Reasoning</span><span class="arrow">→</span>
+    <span>Memory</span><span class="arrow">→</span>
+    <span>Action Execution</span><span class="arrow">→</span>
+    <span>Result</span>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-label"><span id="progressText">0 / 0 topics</span><span id="progressPct">0%</span></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="example-box">
+    <h3>Why "agentic"?</h3>
+    <div class="example-grid">
+      <div class="example-col">
+        <b>Plain chatbot</b>
+        "What are today's meetings?" → reads calendar → prints a list. One step, waits for the next instruction.
+      </div>
+      <div class="example-arrow">⟶</div>
+      <div class="example-col">
+        <b>Agent (autonomous)</b>
+        <ol>
+          <li>Reads Outlook Calendar</li>
+          <li>Finds today's meetings</li>
+          <li>Summarizes agendas</li>
+          <li>Checks related emails</li>
+          <li>Creates action items</li>
+          <li>Sends a Teams reminder</li>
+        </ol>
+        — all without further human input.
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASES injected by JS -->
+  <div id="phases"></div>
+
+  <button class="reset-btn" id="resetBtn">Reset progress</button>
+</div>
+
+<div class="legend">
+  <span><span class="dot" style="background:var(--accent)"></span>Foundations</span>
+  <span><span class="dot" style="background:var(--accent-2)"></span>Core Agentic Skills</span>
+  <span><span class="dot" style="background:var(--accent-3)"></span>Frameworks &amp; Protocols</span>
+  <span><span class="dot" style="background:var(--accent-4)"></span>Production &amp; Advanced</span>
+</div>
+
+<footer>Progress is saved locally in your browser only. Roadmap current as of late 2026.</footer>
+
+<script>
+const PHASES = [
+  {
+    color: "var(--accent)",
+    title: "Phase 1 · AI Fundamentals",
+    duration: "2 weeks",
+    desc: "The mental model every agent builder needs before writing code.",
+    why: "You can't orchestrate what you don't understand. This phase builds intuition for how LLMs actually behave.",
+    groups: [
+      { h: "LLM Landscape", items: ["GPT (OpenAI)", "Claude (Anthropic)", "Gemini (Google)", "Llama (Meta, open weights)", "Mistral / Mixtral", "DeepSeek", "Open-source vs closed-weight models"] },
+      { h: "Core Concepts", items: ["Tokens & tokenization", "Context window", "Temperature / top-p / top-k", "Embeddings & vector similarity", "Fine-tuning (full, LoRA, QLoRA)", "Retrieval-Augmented Generation (RAG) — basic idea", "Multimodal models (text+image/audio)", "Model evaluation basics (benchmarks, leaderboards)"] },
+      { h: "Practice", items: ["Python environment setup", "OpenAI API", "Azure OpenAI", "Gemini API", "Anthropic Claude API", "Local models (Ollama / LM Studio)"] }
+    ]
+  },
+  {
+    color: "var(--accent)",
+    title: "Phase 2 · Prompt Engineering",
+    duration: "1 week",
+    desc: "How you 'program' an LLM through instructions instead of code.",
+    why: "Agents live or die by how well you can get an LLM to reason reliably and output structured, usable results.",
+    groups: [
+      { h: "Prompt Types", items: ["Zero-shot", "One-shot", "Few-shot", "Chain-of-Thought (CoT)", "Step-by-step reasoning", "ReAct pattern (Reason + Act)", "Tree of Thought", "Self-consistency / majority voting", "Meta-prompting / prompt chaining"] },
+      { h: "Structured Outputs", items: ["JSON mode / structured output", "Function-calling schemas", "Output parsers", "System prompts vs user prompts", "Guardrail instructions in-prompt"] }
+    ],
+    extraCode: "Think Step By Step\n\nPlan\nExecute\nVerify\nOutput"
+  },
+  {
+    color: "var(--accent)",
+    title: "Phase 3 · Python for AI",
+    duration: "2 weeks",
+    desc: "Most agentic AI frameworks are Python-first.",
+    why: "Every agent framework (LangChain, CrewAI, LangGraph, AutoGen) is built in Python — fluency here is non-negotiable.",
+    groups: [
+      { h: "Core Python", items: ["Functions & decorators", "Classes & OOP", "Exception handling", "JSON handling", "File handling", "Async programming (asyncio)", "Type hints & Pydantic models", "Virtual environments (venv/poetry)", "Basic testing (pytest)"] },
+      { h: "APIs", items: ["Building simple APIs with FastAPI", "Calling external REST APIs", "Environment variables & secrets management"] }
+    ],
+    project: "Build small single-purpose agents: a Weather Agent, a Currency Converter Agent, and a News Agent — each calling a real external API."
+  },
+  {
+    color: "var(--accent-3)",
+    title: "Phase 4 · LangChain",
+    duration: "2 weeks",
+    desc: "The industry's most popular LLM orchestration framework.",
+    why: "LangChain standardizes how prompts, models, tools and memory snap together — a foundation for everything agentic that follows.",
+    groups: [
+      { h: "Core Concepts", items: ["Chains", "Agents", "Prompt templates", "Memory (buffer, summary, entity)", "Tools & tool binding", "LangChain Expression Language (LCEL)", "Output parsers", "Document loaders & text splitters", "Callbacks & tracing (LangSmith)"] }
+    ],
+    project: "Build a Chat Agent, a PDF Agent, and a Web Search Agent."
+  },
+  {
+    color: "var(--accent)",
+    title: "Phase 5 · RAG (Retrieval Augmented Generation)",
+    duration: "2 weeks",
+    desc: "Grounding LLMs in real data instead of letting them hallucinate.",
+    why: "Without RAG, an LLM only knows what it was trained on and will confidently make things up. With RAG, answers are grounded in your own documents.",
+    groups: [
+      { h: "Vector Databases", items: ["Pinecone", "ChromaDB", "Weaviate", "Qdrant", "FAISS (local/in-memory)", "pgvector (Postgres)"] },
+      { h: "Pipeline Skills", items: ["Chunking strategies (fixed, recursive, semantic)", "Embedding models (OpenAI, Cohere, open-source)", "Dense vs sparse vs hybrid search", "Re-ranking (e.g. Cohere Rerank)", "Query transformation / query rewriting", "Metadata filtering", "Evaluating RAG quality (RAGAS)"] },
+      { h: "Advanced RAG", items: ["GraphRAG (knowledge-graph retrieval)", "Agentic RAG (agent decides when/what to retrieve)", "Multi-hop retrieval"] }
+    ],
+    extraCode: "Documents\n   ↓\nVector DB\n   ↓\nRetriever\n   ↓\nLLM",
+    project: "Create a company knowledge chatbot grounded in internal documents."
+  },
+  {
+    color: "var(--accent-2)",
+    title: "Phase 6 · AI Agents",
+    duration: "3 weeks",
+    desc: "Where the real agentic AI begins — reasoning + autonomous tool use.",
+    why: "This is the core loop: an agent reasons about what to do, takes an action, observes the result, and repeats until the goal is met.",
+    groups: [
+      { h: "ReAct Pattern", items: ["Thought → Action → Observation → Repeat", "Task decomposition / planning", "Self-reflection & self-correction", "Agent types: reactive vs deliberative vs hybrid"] },
+      { h: "Tool Use", items: ["Web search tools", "Reading PDFs / documents", "Calling external APIs", "Code execution (sandboxed)", "Querying databases", "Function / tool calling schemas"] },
+      { h: "Memory", items: ["Short-term (conversation) memory", "Long-term memory (vector store)", "Episodic vs semantic memory", "Memory summarization strategies"] }
+    ],
+    extraCode: "Thought\nAction\nObservation\nRepeat",
+    project: "Travel Planner Agent — user says \"Plan trip to Goa\"; the agent finds flights, finds hotels, calculates budget, and generates a full itinerary."
+  },
+  {
+    color: "var(--accent-3)",
+    title: "Phase 7 · Multi-Agent Systems",
+    duration: "2 weeks",
+    desc: "Moving from one brain to a coordinated team of specialized agents.",
+    why: "Complex, real-world workflows (like software development) are rarely solved by a single agent — they need planners, specialists, and reviewers working together.",
+    groups: [
+      { h: "Core Ideas", items: ["Single agent (one brain) vs multi-agent (team)", "Role specialization: Planner, Coding, Testing, Reviewer agents", "Orchestration patterns: sequential, parallel, hierarchical", "Agent-to-agent communication protocols", "Shared memory / blackboard pattern", "Conflict resolution & consensus"] },
+      { h: "Frameworks", items: ["CrewAI (role-based crews)", "AutoGen (Microsoft)", "LangGraph (graph-based workflows)", "OpenAI Swarm / Agents SDK", "Agency Swarm"] }
+    ],
+    project: "Software Development Team Simulation — Planner, Coder, Tester and Reviewer agents collaborating on a feature end-to-end."
+  },
+  {
+    color: "var(--accent-3)",
+    title: "Phase 8 · LangGraph",
+    duration: "2 weeks",
+    desc: "One of the hottest 2026 skills — production-grade agent workflows.",
+    why: "Real products need more control than a simple agent loop: branching logic, retries, human approval steps, and persistence across sessions.",
+    groups: [
+      { h: "Core Concepts", items: ["Nodes & edges", "State management", "Conditional routing", "Human-in-the-loop / approval steps", "Loops & cycles", "Checkpointing & persistence", "Streaming responses", "Subgraphs & multi-agent graphs"] }
+    ],
+    project: "Customer Support Agent with escalation paths, approval gates, and conversation state persistence."
+  },
+  {
+    color: "var(--accent-3)",
+    title: "Phase 9 · MCP (Model Context Protocol)",
+    duration: "1 week",
+    desc: "Created by Anthropic — huge demand in 2026 for connecting agents to tools.",
+    why: "MCP standardizes how any agent connects to any tool or data source, the way USB standardized device connections — learn it once, connect to everything.",
+    groups: [
+      { h: "Concepts", items: ["MCP Server", "MCP Client", "Tool calling via MCP", "Resources & Prompts primitives", "Transports: stdio, SSE, streamable HTTP", "Building a custom MCP server", "Security considerations (scoping, auth)"] },
+      { h: "Real-world MCP Servers", items: ["GitHub MCP", "Jira MCP", "Slack MCP", "Database MCP", "Filesystem MCP"] },
+      { h: "Emerging (2026)", items: ["Agent-to-Agent (A2A) protocol", "Interop between MCP and A2A ecosystems"] }
+    ]
+  },
+  {
+    color: "var(--accent-3)",
+    title: "Phase 10 · AI + Spring Boot Integration",
+    duration: "2 weeks",
+    desc: "Critical if you're a Java developer bringing agentic AI into enterprise backends.",
+    why: "Most enterprise systems run on Java/Spring — Spring AI lets you bring agentic patterns into that world without rewriting everything in Python.",
+    groups: [
+      { h: "Spring AI", items: ["Chat Client abstraction", "OpenAI integration", "Azure OpenAI integration", "RAG in Spring AI", "Vector stores (pgvector, Pinecone, etc.)", "Function/tool calling in Spring AI", "Spring AI + MCP client/server support"] }
+    ],
+    extraCode: "React Frontend\n   ↓\nSpring Boot\n   ↓\nSpring AI\n   ↓\nOpenAI"
+  },
+  {
+    color: "var(--accent-4)",
+    title: "Advanced · Evaluation, Guardrails & Observability",
+    duration: "ongoing",
+    desc: "Making agents trustworthy, measurable, and safe enough for production.",
+    why: "An agent that can't be evaluated, monitored, or secured is a liability, not a product — this is what separates a demo from something shippable.",
+    groups: [
+      { h: "AI Evaluation", items: ["DeepEval", "LangSmith", "RAGAS", "Golden datasets & regression testing", "LLM-as-judge evaluation"] },
+      { h: "Guardrails & Safety", items: ["Prompt injection prevention", "Hallucination checks", "Output validation / schema enforcement", "Content moderation filters", "Sandboxed code execution", "Human-in-the-loop approval for risky actions"] },
+      { h: "Observability", items: ["LangFuse", "Arize Phoenix", "OpenTelemetry for LLM tracing", "Token/cost tracking per request"] }
+    ]
+  },
+  {
+    color: "var(--accent-4)",
+    title: "Advanced · Agentic Design Patterns",
+    duration: "1 week",
+    desc: "The reusable patterns behind almost every serious agent system (Andrew Ng's four patterns + more).",
+    why: "Frameworks change constantly, but the underlying patterns don't — learn these once and you can recognize and build them in any framework.",
+    groups: [
+      { h: "The Four Core Patterns", items: ["Reflection (agent critiques its own output)", "Tool use (calling external functions/APIs)", "Planning (decomposing goals into steps)", "Multi-agent collaboration"] },
+      { h: "Additional Patterns", items: ["Routing / orchestrator-worker pattern", "Parallelization pattern", "Evaluator-optimizer loop", "Human-in-the-loop checkpoints"] }
+    ]
+  },
+  {
+    color: "var(--accent-4)",
+    title: "Advanced · Deployment & Production Ops",
+    duration: "2 weeks",
+    desc: "Shipping agents that survive real traffic, cost constraints, and failures.",
+    why: "A working notebook demo is not a product — production agents need to be packaged, scaled, monitored, and made affordable to run.",
+    groups: [
+      { h: "Packaging & Infra", items: ["Docker containers for agents", "CI/CD pipelines", "Kubernetes / serverless deployment", "API gateways & rate limiting"] },
+      { h: "Cloud AI Platforms", items: ["AWS Bedrock (Agents)", "Azure AI Foundry", "Google Vertex AI Agent Builder"] },
+      { h: "Cost & Reliability", items: ["Prompt/response caching", "Model routing (cheap model first, escalate if needed)", "Retry & fallback strategies", "Load testing agentic workflows", "A/B testing agent behaviors"] }
+    ]
+  },
+  {
+    color: "var(--accent-4)",
+    title: "Capstone · Portfolio Projects",
+    duration: "flexible",
+    desc: "Tie everything together with projects that demonstrate the full stack.",
+    why: "Employers and clients care about shipped, working systems — these capstones combine RAG, agents, multi-agent orchestration and deployment in one place.",
+    groups: [
+      { h: "Suggested Builds", items: ["End-to-end RAG chatbot over a real document set", "Multi-agent software team (plan → code → test → review)", "Autonomous research agent with web search + citations", "MCP server exposing your own company's tools", "Production agent deployed with monitoring & guardrails"] }
+    ]
+  }
+];
+
+const phasesEl = document.getElementById('phases');
+let totalItems = 0;
+
+PHASES.forEach((phase, pIdx) => {
+  const phaseDiv = document.createElement('div');
+  phaseDiv.className = 'phase';
+
+  let groupsHtml = '';
+  phase.groups.forEach((g, gIdx) => {
+    let itemsHtml = '';
+    g.items.forEach((it, iIdx) => {
+      const id = `p${pIdx}-g${gIdx}-i${iIdx}`;
+      totalItems++;
+      itemsHtml += `<div class="item">
+        <input type="checkbox" id="${id}" data-id="${id}">
+        <label for="${id}">${it}</label>
+      </div>`;
+    });
+    groupsHtml += `<div class="col"><h4>${g.h}</h4>${itemsHtml}</div>`;
+  });
+
+  phaseDiv.innerHTML = `
+    <div class="phase-head">
+      <div class="phase-num" style="background:${phase.color}">${pIdx+1}</div>
+      <div class="phase-title">
+        <div class="t">${phase.title}</div>
+        <div class="d">${phase.desc}</div>
+      </div>
+      <div class="phase-meta">
+        <span class="duration-chip">${phase.duration}</span>
+        <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+    </div>
+    <div class="phase-body">
+      <div class="phase-body-inner">
+        <div class="why">${phase.why}</div>
+        <div class="cols">${groupsHtml}</div>
+        ${phase.extraCode ? `<div class="code">${phase.extraCode}</div>` : ''}
+        ${phase.project ? `<div class="project"><b>Project</b><p>${phase.project}</p></div>` : ''}
+      </div>
+    </div>
+  `;
+
+  phaseDiv.querySelector('.phase-head').addEventListener('click', () => {
+    const body = phaseDiv.querySelector('.phase-body');
+    const isOpen = phaseDiv.classList.contains('open');
+    if (isOpen) {
+      body.style.maxHeight = null;
+      phaseDiv.classList.remove('open');
+    } else {
+      phaseDiv.classList.add('open');
+      body.style.maxHeight = body.scrollHeight + 40 + 'px';
+    }
+  });
+
+  phasesEl.appendChild(phaseDiv);
+});
+
+// open first phase by default
+const firstPhase = phasesEl.querySelector('.phase');
+if (firstPhase) {
+  firstPhase.classList.add('open');
+  const body = firstPhase.querySelector('.phase-body');
+  body.style.maxHeight = body.scrollHeight + 40 + 'px';
+}
+
+// ---- progress tracking (localStorage, best-effort) ----
+const STORAGE_KEY = 'agentic-ai-roadmap-progress';
+let saved = {};
+try {
+  saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+} catch(e) { saved = {}; }
+
+function updateProgress(){
+  const checkboxes = document.querySelectorAll('.item input[type="checkbox"]');
+  let checked = 0;
+  checkboxes.forEach(cb => { if (cb.checked) checked++; });
+  const pct = checkboxes.length ? Math.round((checked/checkboxes.length)*100) : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = `${checked} / ${checkboxes.length} topics`;
+  document.getElementById('progressPct').textContent = pct + '%';
+}
+
+document.querySelectorAll('.item input[type="checkbox"]').forEach(cb => {
+  const id = cb.dataset.id;
+  if (saved[id]) {
+    cb.checked = true;
+    cb.nextElementSibling.classList.add('checked');
+  }
+  cb.addEventListener('change', () => {
+    saved[id] = cb.checked;
+    cb.nextElementSibling.classList.toggle('checked', cb.checked);
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(saved)); } catch(e) {}
+    updateProgress();
+    // recalc open phase heights since nothing changes size here, skip
+  });
+});
+
+updateProgress();
+
+document.getElementById('resetBtn').addEventListener('click', () => {
+  saved = {};
+  try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+  document.querySelectorAll('.item input[type="checkbox"]').forEach(cb => {
+    cb.checked = false;
+    cb.nextElementSibling.classList.remove('checked');
+  });
+  updateProgress();
+});
+</script>
+</body>
+</html>
