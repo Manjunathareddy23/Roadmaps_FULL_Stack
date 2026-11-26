@@ -1,0 +1,957 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>React Developer Roadmap</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+/* Layout: sticky phase index on the left, one long ruled column of phases on the right.
+   Each phase = big number, goal, checkable topic groups, one amber "Build" panel. */
+:root{
+  --font-display:"Space Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --bg:#f3f7f9;
+  --surface:#ffffff;
+  --surface-2:#e7eff3;
+  --fg:#0e1b24;
+  --muted:#50636e;
+  --line:#d2dfe6;
+  --accent:#0a7f9c;
+  --accent-text:#07687f;
+  --accent-soft:#d6edf4;
+  --build:#984a08;
+  --build-soft:#fcf0dd;
+  --build-line:#ecd3a8;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0a131a;--surface:#101c25;--surface-2:#172732;--fg:#e4edf2;--muted:#93a7b3;--line:#223644;
+    --accent:#4cc3e3;--accent-text:#6fd0ea;--accent-soft:#123541;
+    --build:#f0b560;--build-soft:#241d10;--build-line:#4a3a1b;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0a131a;--surface:#101c25;--surface-2:#172732;--fg:#e4edf2;--muted:#93a7b3;--line:#223644;
+  --accent:#4cc3e3;--accent-text:#6fd0ea;--accent-soft:#123541;
+  --build:#f0b560;--build-soft:#241d10;--build-line:#4a3a1b;
+  color-scheme:dark;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--fg);font:15px/1.6 var(--font-body);-webkit-text-size-adjust:100%}
+a{color:var(--accent-text)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+code{font-family:var(--font-mono);font-size:.86em;background:var(--surface-2);padding:1px 5px;border-radius:4px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+.shell{
+  max-width:1200px;margin:0 auto;padding-block:48px 96px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+}
+
+/* hero */
+.eyebrow{font:500 12px/1 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-text);margin:0 0 18px}
+h1{font:700 clamp(2.1rem,5.4vw,3.6rem)/1.05 var(--font-display);letter-spacing:-.02em;margin:0 0 18px;max-width:22ch;text-wrap:balance}
+.lede{max-width:62ch;color:var(--muted);font-size:1.0625rem;margin:0 0 28px}
+.progress-wrap{max-width:560px}
+.progress-row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px 12px;align-items:baseline;margin-bottom:8px;font-size:13px;color:var(--muted)}
+.progress-row b{color:var(--fg);font-weight:600;font-variant-numeric:tabular-nums}
+.bar{height:8px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.bar>i{display:block;height:100%;width:0;background:var(--accent);border-radius:99px}
+@media (prefers-reduced-motion:no-preference){.bar>i{transition:width .3s ease}}
+.linkbtn{background:none;border:0;padding:0;color:var(--muted);font:inherit;font-size:13px;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.linkbtn:hover{color:var(--fg)}
+
+/* layout */
+.layout{display:grid;grid-template-columns:230px minmax(0,1fr);gap:56px;margin-top:56px;align-items:start}
+.toc{position:sticky;top:24px;max-height:calc(100vh - 48px);overflow:auto;padding-right:4px}
+.toc h2{font:500 11px/1 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.toc a{display:grid;grid-template-columns:1.6rem minmax(0,1fr) auto;gap:6px;align-items:baseline;padding:7px 10px;border-radius:8px;color:var(--fg);text-decoration:none;font-size:13.5px}
+.toc a:hover{background:var(--surface-2)}
+.toc a[aria-current="true"]{background:var(--accent-soft);color:var(--accent-text)}
+.toc .num{font:500 12px var(--font-mono);color:var(--muted)}
+.toc a[aria-current="true"] .num{color:var(--accent-text)}
+.toc .cnt{font:400 11.5px var(--font-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.toc .sep{height:1px;background:var(--line);margin:8px 10px}
+@media (max-width:959px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:32px;margin-top:40px}
+  .toc{position:static;max-height:none;overflow:visible;padding:0}
+  .toc ol{display:flex;flex-wrap:wrap;gap:6px}
+  .toc a{display:flex;gap:6px;padding:6px 11px;border:1px solid var(--line);border-radius:99px;background:var(--surface)}
+  .toc .cnt,.toc .sep{display:none}
+}
+
+/* generic blocks */
+.block{padding-bottom:56px}
+.sec-title{font:700 1.5rem/1.2 var(--font-display);letter-spacing:-.01em;margin:0 0 6px}
+.sec-sub{color:var(--muted);margin:0 0 24px;max-width:62ch}
+main section[id]{scroll-margin-top:20px}
+
+/* timeline, drawn to scale in weeks */
+.tl{--lab:10.5rem;display:grid;gap:5px}
+@media (max-width:560px){.tl{--lab:8.4rem}}
+.tl-row,.tl-axis{display:grid;grid-template-columns:var(--lab) minmax(0,1fr);gap:10px;align-items:center}
+.tl-lab{font-size:12.5px;line-height:1.25;display:flex;gap:6px;align-items:baseline;min-width:0}
+.tl-lab .num{font:500 11px var(--font-mono);color:var(--muted);width:1.3rem;flex:none}
+.tl-lab .nm{min-width:0}
+.tl-lab .wk{margin-left:auto;padding-left:4px;font:400 11px var(--font-mono);color:var(--muted);white-space:nowrap}
+.tl-track{position:relative;height:24px;background-image:linear-gradient(to right,var(--line) 1px,transparent 1px);background-size:calc(100% * 10 / var(--total)) 100%;background-repeat:repeat-x}
+.tl-bar{position:absolute;top:4px;bottom:4px;border:1px solid var(--accent);border-radius:5px;background:var(--accent-soft);overflow:hidden}
+.tl-bar i{display:block;height:100%;background:var(--accent)}
+.tl-axis{margin-top:2px}
+.tl-axis .ax-l{font:400 11px var(--font-mono);color:var(--muted);text-align:right}
+.tl-ticks{position:relative;height:18px;font:400 11px var(--font-mono);color:var(--muted)}
+.tl-ticks span{position:absolute;top:0;transform:translateX(-50%)}
+.tl-key{display:flex;flex-wrap:wrap;gap:6px 20px;margin-top:16px;font-size:12.5px;color:var(--muted)}
+.tl-key span{display:inline-flex;align-items:center;gap:7px}
+.tl-key i{display:inline-block;width:16px;height:10px;border-radius:3px;border:1px solid var(--accent)}
+.tl-key .a{background:var(--accent)}
+.tl-key .b{background:var(--accent-soft)}
+
+/* how to learn */
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:22px 28px;counter-reset:s}
+.steps li{counter-increment:s;border-top:1px solid var(--line);padding-top:14px}
+.steps li::before{content:counter(s);display:block;font:700 1.7rem/1 var(--font-display);color:var(--accent-text);margin-bottom:10px}
+.steps h3{font:600 15px/1.3 var(--font-body);margin:0 0 4px}
+.steps p{margin:0;color:var(--muted);font-size:14px}
+.rule{margin:26px 0 0;max-width:62ch;font-size:14.5px}
+
+/* phases */
+.phase{padding-block:44px;border-top:1px solid var(--line)}
+.phase-head{display:grid;grid-template-columns:auto minmax(0,1fr);gap:0 20px;align-items:start}
+.pnum{font:700 clamp(2.6rem,7vw,3.8rem)/.9 var(--font-display);letter-spacing:-.03em;color:var(--accent-text);min-width:1.1ch}
+.phase h2{font:700 clamp(1.4rem,3.4vw,1.85rem)/1.15 var(--font-display);letter-spacing:-.01em;margin:0;text-wrap:balance}
+.phase-meta{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin:10px 0}
+.pill{font:500 12px/1 var(--font-mono);padding:5px 10px;border-radius:99px;background:var(--surface-2)}
+.pcount{font:400 12px var(--font-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.goal{margin:0;color:var(--muted);max-width:64ch}
+
+.group{margin-top:28px}
+.g-title{display:flex;align-items:center;gap:12px;font:500 11.5px/1 var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+.g-title::after{content:"";flex:1;height:1px;background:var(--line)}
+.items{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,290px),1fr));gap:0 24px}
+.items label{display:flex;gap:11px;align-items:flex-start;padding:8px;border-radius:8px;cursor:pointer}
+.items label:hover{background:var(--surface-2)}
+.items input{width:17px;height:17px;margin:3px 0 0;accent-color:var(--accent);flex:none;cursor:pointer}
+.it{min-width:0}
+.t{display:block;font-weight:500;overflow-wrap:anywhere}
+.note{display:block;margin-top:1px;font-size:13px;line-height:1.45;color:var(--muted);overflow-wrap:anywhere}
+.items li.done .t{color:var(--muted);text-decoration:line-through;text-decoration-thickness:1px}
+
+.build{margin-top:34px;background:var(--build-soft);border:1px solid var(--build-line);border-radius:12px;padding:20px 22px}
+.build-label{font:500 11.5px/1 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--build);margin:0 0 14px}
+.proj+.proj{margin-top:18px;padding-top:18px;border-top:1px solid var(--build-line)}
+.proj h4{font:600 1.05rem/1.3 var(--font-display);margin:0 0 8px}
+.proj ul{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));gap:4px 22px;font-size:14px}
+.proj li{padding-left:16px;position:relative;min-width:0;overflow-wrap:anywhere}
+.proj li::before{content:"";position:absolute;left:0;top:.62em;width:6px;height:6px;border-radius:50%;background:var(--build)}
+.check{margin:22px 0 0;font-size:14.5px;max-width:70ch}
+.check strong{color:var(--accent-text);font-weight:600}
+.refs{margin:14px 0 0;font-size:13.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 16px;align-items:baseline}
+.refs b{font:500 11.5px var(--font-mono);letter-spacing:.1em;text-transform:uppercase;font-weight:500}
+.refs a{text-underline-offset:3px}
+
+/* stack table + mistakes */
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+.tbl table{border-collapse:collapse;width:100%;min-width:600px;font-size:14px}
+.tbl th{font:500 11.5px var(--font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:left;padding:10px 14px;background:var(--surface-2)}
+.tbl td{padding:10px 14px;border-top:1px solid var(--line);vertical-align:top}
+.tbl td:first-child{color:var(--muted);white-space:nowrap}
+.tbl td:nth-child(2){font-weight:500}
+.mist{list-style:none;margin:0;padding:0;display:grid;gap:14px;max-width:70ch}
+.mist li{padding-left:20px;position:relative}
+.mist li::before{content:"";position:absolute;left:0;top:.7em;width:8px;height:2px;background:var(--muted)}
+.mist strong{font-weight:600}
+.foot{margin-top:8px;color:var(--muted);font-size:13px}
+</style>
+
+<div class="shell">
+  <header>
+    <p class="eyebrow">React roadmap · beginner to job-ready</p>
+    <h1>From HTML, CSS and JavaScript to production React</h1>
+    <p class="lede">Twelve phases, paced for about two hours a day. Each phase lists what to learn, what to build, and how to tell you are ready to move on. Tick topics off as you go; your progress is saved in this browser.</p>
+    <div class="progress-wrap">
+      <div class="progress-row">
+        <span>Overall progress: <b id="ov-text">0 of 0 topics</b></span>
+        <button class="linkbtn" id="reset" type="button">Reset progress</button>
+      </div>
+      <div class="bar" role="progressbar" aria-label="Overall progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="ov-bar"><i id="ov-fill"></i></div>
+    </div>
+  </header>
+
+  <div class="layout">
+    <nav class="toc" aria-label="Phases"><h2>Phases</h2><ol id="toc-list"></ol></nav>
+
+    <main id="main">
+      <section class="block" id="timeline">
+        <h2 class="sec-title">The whole path, in weeks</h2>
+        <p class="sec-sub">Phases 0 to 10 run in order. Phase 11, interview prep, runs alongside phases 5 to 10.</p>
+        <div id="tl"></div>
+      </section>
+
+      <section class="block" id="how">
+        <h2 class="sec-title">How to learn every topic</h2>
+        <p class="sec-sub">Use the same four steps for each checkbox below.</p>
+        <ol class="steps">
+          <li><h3>Read the official docs</h3><p>Start with the matching page on react.dev, MDN or the library's own site. Keep it to about 15 minutes.</p></li>
+          <li><h3>Code along</h3><p>Type the example in a scratch project. Break it on purpose and read the error messages.</p></li>
+          <li><h3>Rebuild from memory</h3><p>Close the tutorial and recreate it. Whatever you cannot rebuild is what you have not learned yet.</p></li>
+          <li><h3>Extend it</h3><p>Add a feature the tutorial did not have, and handle loading, error and empty states.</p></li>
+        </ol>
+        <p class="rule"><strong>Gate rule:</strong> do not start the next phase until the current phase's project is built, deployed and has a README.</p>
+      </section>
+
+      <div id="phases"></div>
+
+      <section class="block" id="stack" style="padding-top:44px;border-top:1px solid var(--line)">
+        <h2 class="sec-title">The stack you finish with</h2>
+        <p class="sec-sub">One tool per layer. Learn these first; compare alternatives after you have shipped with them.</p>
+        <div class="tbl"><table>
+          <thead><tr><th>Layer</th><th>Learn</th><th>Why this one</th></tr></thead>
+          <tbody>
+            <tr><td>Language</td><td>TypeScript</td><td>Expected on most professional teams.</td></tr>
+            <tr><td>Build tool</td><td>Vite</td><td>Fast dev server; the usual choice for single-page apps.</td></tr>
+            <tr><td>Routing</td><td>React Router</td><td>Nested layouts, loaders, protected routes.</td></tr>
+            <tr><td>Server state</td><td>TanStack Query</td><td>Caching, refetching, mutations and optimistic updates.</td></tr>
+            <tr><td>Client state</td><td>Zustand, then Redux Toolkit</td><td>A small store first; Redux Toolkit is common in larger, older codebases.</td></tr>
+            <tr><td>Forms</td><td>React Hook Form + Zod</td><td>Fast forms with schema validation shared with your types.</td></tr>
+            <tr><td>Styling</td><td>Tailwind CSS + shadcn/ui</td><td>Quick, consistent UI built on accessible primitives.</td></tr>
+            <tr><td>Testing</td><td>Vitest, Testing Library, Playwright, MSW</td><td>Unit, component, end-to-end and API mocking.</td></tr>
+            <tr><td>Full-stack</td><td>Next.js</td><td>Server Components, SSR, Server Actions, routing.</td></tr>
+            <tr><td>Backend</td><td>Node.js + Express or NestJS</td><td>REST APIs; NestJS structure suits enterprise teams.</td></tr>
+            <tr><td>Database</td><td>PostgreSQL + Prisma</td><td>Relational data with a typed ORM and migrations.</td></tr>
+            <tr><td>Delivery</td><td>Git, GitHub Actions, Docker, Vercel or AWS</td><td>CI/CD and repeatable deployments.</td></tr>
+            <tr><td>Monitoring</td><td>Sentry</td><td>Error tracking in production.</td></tr>
+          </tbody>
+        </table></div>
+      </section>
+
+      <section class="block" id="mistakes" style="padding-top:56px">
+        <h2 class="sec-title">Mistakes that slow people down</h2>
+        <p class="sec-sub">Check yourself against these every few weeks.</p>
+        <ul class="mist">
+          <li><strong>Learning many libraries at once.</strong> Master one tool per category before you compare alternatives.</li>
+          <li><strong>Watching without building.</strong> Pause the video, type it yourself, then rebuild it from memory.</li>
+          <li><strong>Skipping JavaScript fundamentals.</strong> Closures, mutation and async cause most confusing React bugs.</li>
+          <li><strong>Reaching for <code>useEffect</code> first.</strong> Derived values and event handlers cover most cases.</li>
+          <li><strong>Memoizing everything.</strong> Measure with the Profiler before adding <code>useMemo</code> or <code>useCallback</code>.</li>
+          <li><strong>Only cloning tutorials.</strong> Add your own features and handle the edge cases the tutorial skipped.</li>
+          <li><strong>Never deploying.</strong> Put every project live with a README and a short architecture note.</li>
+        </ul>
+        <p class="foot">Progress is stored only in this browser and will not follow you to another device.</p>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script>
+const PHASES=[
+{id:0,name:"JavaScript readiness",short:"JS readiness",time:"1–2 weeks",wMin:1,wMax:2,
+goal:"Close the JavaScript gaps that make React feel confusing. Most React bugs turn out to be JavaScript bugs.",
+groups:[
+["Modern syntax",[
+"`let` and `const`|Block scope, and why `var` is avoided",
+"Arrow functions|Syntax, implicit return, how they treat `this`",
+"Template literals|Embedded expressions and multi-line strings",
+"Destructuring|Objects, arrays, nested values, defaults, renaming",
+"Spread and rest|Copying and merging objects and arrays",
+"Default parameters",
+"Optional chaining and nullish coalescing|`?.` and `??` compared with `||`",
+"Short-circuit and ternary expressions|You will write `cond && <Thing />` daily"]],
+["Working with data",[
+"`map`, `filter`, `reduce`|The three you will use most in JSX",
+"`find`, `findIndex`, `some`, `every`, `includes`",
+"`sort`, `slice`, `splice`|Which ones mutate the original array",
+"Immutability|Copying objects and arrays instead of changing them",
+"`Object.keys`, `values`, `entries`",
+"`JSON.stringify` and `JSON.parse`",
+"Dates and `Intl`|Formatting dates, numbers and currency"]],
+["Functions and scope",[
+"Closures|The root of stale-state bugs in hooks",
+"Higher-order functions and callbacks",
+"Pure functions and side effects|The idea React is built on",
+"`this`, `call`, `apply`, `bind`|Needed to read older class-based code"]],
+["Asynchronous JavaScript",[
+"Call stack, event loop, microtasks",
+"Promises|Chaining, `.catch`, `.finally`",
+"`async` and `await` with `try/catch`",
+"`fetch`|GET and POST, headers, `response.ok`, status codes",
+"`AbortController`|Cancelling requests",
+"`Promise.all` and `Promise.allSettled`",
+"Debounce and throttle|Write them yourself once"]],
+["Browser and modules",[
+"ES modules|Default versus named exports and imports",
+"DOM events|Bubbling, capturing, event delegation",
+"`localStorage` and `sessionStorage`",
+"`URLSearchParams` and the History API"]],
+["Developer setup",[
+"Node.js LTS and npm|`package.json`, scripts, semantic versioning",
+"Git and GitHub basics|Init, commit, branch, push, pull request",
+"VS Code with ESLint and Prettier",
+"Chrome DevTools|Elements, Network, Console, Sources, Performance"]]
+],
+projects:[{name:"Country Explorer in plain JavaScript",features:["Fetch from a public REST API","Search, filter and sort","Favorites saved in localStorage","Loading and error states","Split into ES modules","Pushed to GitHub with a README"]}],
+check:"You can explain the event loop and write async code with error handling without looking anything up.",
+links:[["MDN","https://developer.mozilla.org"],["javascript.info","https://javascript.info"]]},
+
+{id:1,name:"React fundamentals",short:"React basics",time:"3–4 weeks",wMin:3,wMax:4,
+goal:"Think of the UI as a function of state, then build small apps without a tutorial open.",
+groups:[
+["Getting started",[
+"What React is|UI as a function of state; declarative versus imperative",
+"Project setup with Vite|`npm create vite@latest`, JSX template",
+"Project structure|`index.html`, `main.jsx`, `App.jsx`",
+"`StrictMode`|Why effects run twice in development",
+"React Developer Tools extension",
+"Function components|Naming, one component per file, exports"]],
+["JSX",[
+"JSX compiles to JavaScript|It is not HTML",
+"Expressions in curly braces",
+"`className`, `htmlFor` and camelCase attributes",
+"Fragments and self-closing tags",
+"Inline styles as objects",
+"Conditional rendering|Ternary, `&&`, early return",
+"Rendering lists with `map`",
+"Keys|Stable ids; why array index breaks dynamic lists"]],
+["Props",[
+"Passing and reading props",
+"Destructuring props and default values",
+"The `children` prop",
+"Props are read-only",
+"Functions as props|Child-to-parent communication",
+"Spreading props",
+"Prop drilling|Recognise when it starts to hurt"]],
+["State and events",[
+"`useState`",
+"Functional updates|`setCount(prev => prev + 1)`",
+"State is a snapshot|Why logging right after `set` shows the old value",
+"Batching updates",
+"Updating objects and arrays immutably",
+"Event handlers|Synthetic events, `preventDefault`",
+"Controlled inputs|Text, checkbox, radio, select, textarea",
+"Lifting state up",
+"Deciding what belongs in state|Derived values are not state",
+"Resetting state with `key`"]],
+["Effects",[
+"`useEffect` basics",
+"The dependency array",
+"Cleanup functions|Timers, listeners, subscriptions",
+"Fetching data in an effect|Race conditions and `AbortController`",
+"Effects versus event handlers",
+"You Might Not Need an Effect|Read this page on react.dev twice",
+"Loading, error and empty states"]],
+["Thinking in React",[
+"Break a design into a component hierarchy",
+"Build a static version first, then add state",
+"Single responsibility per component",
+"Keep state close to where it is used"]]
+],
+projects:[
+{name:"Todo app",features:["Add, edit, delete, toggle","Filter all, active, done","Item counts","Saved in localStorage","Keyboard friendly"]},
+{name:"Movie or weather search",features:["Debounced search input","Loading, error and empty states","Cancel stale requests","Detail view for a result"]},
+{name:"Multi-step signup form",features:["Controlled inputs","Validation on each step","Back and next with kept values","Summary before submit"]}],
+check:"From a blank Vite project, you can build a small data-driven app in one evening with no tutorial open.",
+links:[["React docs","https://react.dev"],["Vite","https://vite.dev"]]},
+
+{id:2,name:"Hooks and patterns",short:"Hooks & patterns",time:"3–4 weeks",wMin:3,wMax:4,
+goal:"Go deep on hooks, learn how rendering works, and start writing reusable component patterns.",
+groups:[
+["Core hooks",[
+"`useRef`|DOM access, focus, and values that do not trigger renders",
+"`useReducer`|Reducer functions, action objects, when it beats `useState`",
+"`useContext` and `createContext`|Provider pattern; avoid one giant context",
+"`useMemo` and `useCallback`|Use after measuring, not by default",
+"`useId`|Accessible, stable ids",
+"`useLayoutEffect`|Rare; measuring layout before paint",
+"`useTransition` and `useDeferredValue`|Keep typing responsive during heavy updates"]],
+["React 19 features",[
+"Actions and `useActionState`|Form submissions with pending and error state",
+"`useFormStatus`",
+"`useOptimistic`|Show the result before the server confirms",
+"`use()`|Reading promises and context",
+"`ref` as a regular prop|No `forwardRef` in new code",
+"Document metadata in components|Titles and meta tags"]],
+["Custom hooks",[
+"Rules of hooks|Top level only, only in components and hooks",
+"`useFetch`|With loading, error and cancellation",
+"`useLocalStorage`",
+"`useDebounce`",
+"`useToggle` and `useMediaQuery`",
+"`useOnClickOutside`",
+"Hook API design|What to return, and when an object beats an array"]],
+["Component patterns",[
+"Composition over inheritance",
+"Children as slots",
+"Compound components|Tabs, Accordion, Select",
+"Render props",
+"Controlled versus uncontrolled components",
+"Higher-order components|Recognise them in older code",
+"Portals|Modals, tooltips, dropdowns",
+"Error boundaries|`react-error-boundary`"]],
+["How rendering works",[
+"Render phase and commit phase",
+"Virtual DOM and reconciliation|How diffing uses keys",
+"Why a component re-renders|State, props, parent, context",
+"`React.memo`|What it compares and when it helps",
+"Automatic batching",
+"Concurrent rendering|The idea behind transitions"]],
+["Legacy awareness",[
+"Class components and lifecycle methods|Read-only knowledge",
+"Create React App, classic Redux, Enzyme|Names you will meet in older projects"]]
+],
+projects:[
+{name:"Shop front",features:["Product grid from an API","Search, category filter, sort","Pagination","Cart with Context and `useReducer`","Cart saved between visits"]},
+{name:"UI kit, version 0",features:["Modal using a portal","Tabs and Accordion as compound components","Dropdown with keyboard support","Toast system"]}],
+check:"You can explain why a component re-rendered, and fix an unnecessary one using the Profiler.",
+links:[["React docs","https://react.dev/learn"],["Patterns.dev","https://www.patterns.dev"]]},
+
+{id:3,name:"Routing, data and state",short:"Routing & state",time:"4–5 weeks",wMin:4,wMax:5,
+goal:"Build multi-page apps that talk to real APIs, and know which kind of state belongs where.",
+groups:[
+["React Router",[
+"Router setup|`createBrowserRouter`, `RouterProvider`",
+"`Link`, `NavLink`, `Outlet`",
+"Nested layouts",
+"Dynamic segments with `useParams`",
+"Query strings with `useSearchParams`",
+"Navigation with `useNavigate` and redirects",
+"Protected and role-based routes",
+"404 pages and `errorElement`",
+"Loaders and actions",
+"Lazy-loaded routes",
+"Scroll restoration"]],
+["Server state with TanStack Query",[
+"Server state versus client state|The idea that makes the library make sense",
+"`useQuery`|Query keys, `staleTime`, `gcTime`",
+"`useMutation` and invalidation",
+"Optimistic updates with rollback",
+"Pagination and infinite queries",
+"Prefetching",
+"Retry and error configuration",
+"Query Devtools",
+"An API client|`fetch` wrapper or Axios with interceptors",
+"Query key factories"]],
+["Client state",[
+"When Context is enough",
+"Zustand|Stores, selectors, `persist` middleware",
+"Redux Toolkit|Slices, `createAsyncThunk`, RTK Query overview",
+"Jotai and others|Awareness only",
+"URL as state|Filters, tabs and pages that survive refresh and sharing",
+"Form state versus global state"]],
+["Forms at scale",[
+"React Hook Form|`register`, `Controller`, errors, dirty state",
+"Zod schemas and resolvers",
+"Field arrays and dependent fields",
+"File upload with preview",
+"Accessible error messages",
+"Showing server-side validation errors"]],
+["Authentication on the frontend",[
+"Session cookies versus JWT|The trade-offs at a high level",
+"Access and refresh tokens",
+"`httpOnly` cookies|Why not `localStorage` for tokens",
+"Login and logout flow",
+"Route guards",
+"Keeping the user signed in on refresh",
+"Role-based UI"]],
+["Resilience",[
+"Suspense for data and code",
+"Error boundaries per route",
+"Skeleton loaders",
+"Empty states",
+"Retry buttons and offline messages",
+"Toast and notification system"]]
+],
+projects:[{name:"Admin dashboard",features:["Login with admin and viewer roles","Users table: sort, filter, paginate","Filters stored in the URL","Create, edit, delete with optimistic updates","Charts with Recharts","Global error handling","Dark mode"]}],
+check:"For any piece of data, you can say whether it belongs in the URL, the server cache, a store, or a component, and why.",
+links:[["React Router","https://reactrouter.com"],["TanStack Query","https://tanstack.com/query"],["Zustand","https://zustand.docs.pmnd.rs"],["Redux Toolkit","https://redux-toolkit.js.org"],["React Hook Form","https://react-hook-form.com"],["Zod","https://zod.dev"]]},
+
+{id:4,name:"Styling and UI engineering",short:"Styling & UI",time:"2–3 weeks",wMin:2,wMax:3,
+goal:"Build interfaces that look consistent, work on every screen size, and can be used with a keyboard.",
+groups:[
+["CSS foundations",[
+"Flexbox and Grid",
+"Mobile-first responsive design",
+"Container queries",
+"CSS custom properties|Theming with variables",
+"Dark mode|`prefers-color-scheme` plus a manual toggle",
+"Transitions and animations|Respect reduced motion"]],
+["Styling approaches",[
+"CSS Modules",
+"Tailwind CSS|Utilities, responsive variants, config",
+"`clsx`, `cva` and `tailwind-merge`|Variant-driven components",
+"CSS-in-JS|Styled-components and Emotion; know the runtime cost",
+"Sass|Recognise it in older projects"]],
+["Component libraries",[
+"shadcn/ui and Radix primitives",
+"MUI or Chakra|Know at least one",
+"Headless component ideas",
+"Design tokens",
+"Component variant APIs|Size, intent, state"]],
+["Accessibility",[
+"Semantic HTML first",
+"ARIA only when needed",
+"Keyboard navigation and focus trapping",
+"Visible focus styles",
+"Color contrast|WCAG AA",
+"Labels and error messages in forms",
+"Screen reader checks|NVDA or VoiceOver",
+"axe DevTools scans"]],
+["UI building blocks",[
+"Storybook|Document components in isolation",
+"Icon libraries|Lucide, React Icons",
+"Motion|Framer Motion for page and element transitions",
+"Charts|Recharts",
+"TanStack Table|Sorting, filtering, pagination",
+"`date-fns`",
+"Image handling|Lazy loading, `srcset`, WebP and AVIF"]]
+],
+projects:[{name:"Mini design system",features:["Button, Input, Select, Modal, Toast, Table","Built on Tailwind and Radix","Light and dark themes","Documented in Storybook","Passes an axe scan","Usable by keyboard alone"]}],
+check:"You can use your whole app with only a keyboard, and it passes an automated accessibility scan.",
+links:[["Tailwind CSS","https://tailwindcss.com"],["shadcn/ui","https://ui.shadcn.com"],["Radix UI","https://www.radix-ui.com"],["web.dev Accessibility","https://web.dev/learn/accessibility"],["Storybook","https://storybook.js.org"]]},
+
+{id:5,name:"TypeScript with React",short:"TypeScript",time:"3–4 weeks",wMin:3,wMax:4,
+goal:"Let the compiler catch bugs before the browser does. Most professional teams expect this.",
+groups:[
+["TypeScript core",[
+"`type` versus `interface`",
+"Primitives, unions and literal types",
+"Narrowing and type guards",
+"Generics",
+"Utility types|`Partial`, `Pick`, `Omit`, `Record`, `ReturnType`",
+"`unknown` versus `any`",
+"Strict mode in `tsconfig`",
+"Inference|Annotate less, not more",
+"`as const` and `satisfies`",
+"Discriminated unions|Great for reducer actions and API results",
+"Union literals instead of enums"]],
+["TypeScript in React",[
+"Typing props and `children`|`ReactNode`, `PropsWithChildren`",
+"Event types|`ChangeEvent`, `MouseEvent`, `FormEvent`",
+"`useState<T>` and `useRef<T>`",
+"Typed `useReducer` actions",
+"Typing Context safely",
+"Generic components|A `Table<T>`",
+"Typing custom hooks",
+"Extending native elements|`ComponentProps<'button'>`",
+"Polymorphic components|An `as` prop",
+"`z.infer` from Zod schemas|One source for validation and types",
+"Typed React Router and TanStack Query",
+"Declaration files for untyped libraries"]]
+],
+projects:[{name:"Convert an earlier project",features:["Convert the Shop front or Admin dashboard","Strict mode on, zero `any`","Shared types derived from Zod schemas","Typed API layer"]}],
+check:"Strict mode is on, there is no `any` in your code, and the compiler flags your mistakes before you run the app.",
+links:[["TypeScript docs","https://www.typescriptlang.org/docs"],["React TypeScript Cheatsheet","https://react-typescript-cheatsheet.netlify.app"]]},
+
+{id:6,name:"Testing",short:"Testing",time:"2 weeks",wMin:2,wMax:2,
+goal:"Write tests that describe behavior, so refactors do not break them.",
+groups:[
+["Foundations",[
+"The testing pyramid",
+"Test behavior, not implementation",
+"Arrange, Act, Assert",
+"Coverage as a signal, not a target"]],
+["Unit and component tests",[
+"Vitest|Config, matchers, watch mode",
+"React Testing Library|`render`, `screen`, `getByRole` first",
+"`userEvent`",
+"Async queries|`findBy` and `waitFor`",
+"Testing custom hooks with `renderHook`",
+"Testing forms and validation",
+"Custom render wrapper|Router, Query and Context providers",
+"Mocks and spies|`vi.fn`, module mocks, fake timers",
+"MSW|Mock the network, not your code"]],
+["End-to-end",[
+"Playwright locators and auto-waiting",
+"Reusing a logged-in state across tests",
+"Trace viewer for debugging",
+"Visual regression|Awareness only",
+"Running E2E in CI"]],
+["Quality tooling",[
+"ESLint with `react-hooks` rules",
+"Prettier",
+"Husky and lint-staged|Checks before each commit",
+"`jest-axe`|Accessibility assertions"]]
+],
+projects:[{name:"Test the Admin dashboard",features:["30 or more component tests","API tests backed by MSW","3 Playwright flows: login, create, delete","Tests run on every pull request"]}],
+check:"You can refactor a component's internals and every test stays green, because the tests only describe behavior.",
+links:[["Vitest","https://vitest.dev"],["Testing Library","https://testing-library.com"],["Playwright","https://playwright.dev"],["MSW","https://mswjs.io"]]},
+
+{id:7,name:"Performance and architecture",short:"Performance",time:"3 weeks",wMin:3,wMax:3,
+goal:"Measure before you optimize, then structure code so a team can change it safely.",
+groups:[
+["Measure first",[
+"React DevTools Profiler",
+"Chrome Performance panel and Lighthouse",
+"Core Web Vitals|LCP, INP, CLS",
+"Bundle analysis|`rollup-plugin-visualizer`",
+"Real-user metrics with `web-vitals`"]],
+["Optimize",[
+"Code splitting|`React.lazy` and Suspense",
+"Route-level splitting",
+"Selective memoization",
+"React Compiler|What automatic memoization does and when it applies",
+"List virtualization|TanStack Virtual",
+"`useTransition` for heavy updates",
+"Image and font optimization",
+"Avoid defining components inside components",
+"Stable context values",
+"Tree-shaking and import cost",
+"Web Workers|Awareness only",
+"HTTP caching, prefetch and preload"]],
+["Architecture",[
+"Feature-based folder structure",
+"Barrel files and their costs",
+"Path aliases and absolute imports",
+"Layers|UI, hooks, services, types",
+"An API layer that hides `fetch` details",
+"Environment variables|`VITE_*` and per-environment config",
+"Dependency direction|Features should not import each other freely",
+"A global error-handling strategy",
+"Feature flags",
+"Monorepos with shared packages",
+"Micro-frontends|Awareness only"]]
+],
+projects:[{name:"Performance pass",features:["Set a budget for your Shop or Dashboard","Lighthouse score of 90 or more","Cut the bundle with route splitting","Virtualize a 10,000-row table","Write before-and-after notes"]}],
+check:"You can show a before-and-after profile and explain what changed and why it helped.",
+links:[["web.dev Web Vitals","https://web.dev/vitals"],["TanStack Virtual","https://tanstack.com/virtual"],["React docs","https://react.dev/learn"]]},
+
+{id:8,name:"Real-time features",short:"Real-time",time:"3–4 weeks",wMin:3,wMax:4,
+goal:"Build apps where several users see changes immediately, and that survive bad connections.",
+groups:[
+["Protocols",[
+"Polling and long polling",
+"Server-Sent Events|One-way live updates",
+"WebSockets|Handshake, frames, lifecycle",
+"Socket.IO versus raw `ws`",
+"WebRTC|Awareness only; video and voice calls",
+"Choosing the right tool for the job"]],
+["Client patterns",[
+"Connect and clean up inside effects",
+"Reconnection with backoff",
+"Heartbeats and presence",
+"Events, namespaces and rooms",
+"Syncing socket data with the TanStack Query cache",
+"Optimistic UI and rollback",
+"Message ordering and de-duplication",
+"Offline handling|`navigator.onLine`",
+"Typing indicators and read receipts",
+"Web Push and notifications|Awareness only",
+"Collaborative editing|CRDT and Yjs awareness"]],
+["Backend for real-time",[
+"Node.js with Socket.IO server",
+"Authenticating the socket handshake",
+"Redis adapter for scaling|Awareness only",
+"Rate limiting events"]]
+],
+projects:[
+{name:"Chat app",features:["Rooms and direct messages","Typing indicators","Online presence","Message history","Unread counts"]},
+{name:"Live Kanban board",features:["Drag and drop with dnd-kit","Changes sync across users","Conflict handling","Activity feed"]}],
+check:"Two browser windows stay in sync, recover from a dropped connection, and never show duplicate messages.",
+links:[["Socket.IO","https://socket.io/docs/v4"],["MDN WebSockets","https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API"]]},
+
+{id:9,name:"Backend and full-stack",short:"Full-stack",time:"5–6 weeks",wMin:5,wMax:6,
+goal:"Own a feature end to end: the screen, the API, the database and the deployment.",
+groups:[
+["Node.js and APIs",[
+"Node.js fundamentals|Modules, event loop, streams",
+"Express|Routing and middleware",
+"REST design|Resources, status codes, pagination, idempotency",
+"Validation with Zod at the boundary",
+"Error-handling middleware",
+"CORS, Helmet and rate limiting",
+"OpenAPI and Swagger docs",
+"NestJS|Common in enterprise teams",
+"GraphQL with Apollo|Awareness only",
+"tRPC|Awareness only"]],
+["Databases",[
+"SQL fundamentals|Joins, indexes, transactions",
+"PostgreSQL",
+"Prisma or Drizzle ORM",
+"Migrations",
+"Schema design and relations",
+"MongoDB basics|Awareness only",
+"Redis for caching|Awareness only",
+"Connection pooling"]],
+["Authentication and security",[
+"Password hashing|bcrypt or argon2",
+"JWT with refresh-token rotation",
+"Sessions and cookies|`httpOnly`, `Secure`, `SameSite`",
+"OAuth 2.0 and OpenID Connect|Sign in with Google",
+"Auth libraries|Auth.js, Clerk; know the trade-offs",
+"Role-based access control",
+"OWASP Top 10|XSS, CSRF, injection",
+"Secrets management"]],
+["Next.js App Router",[
+"File-based routing, layouts, `loading` and `error` files",
+"Server Components versus Client Components",
+"Fetching data on the server",
+"Caching and revalidation|Read the docs for your version; this area changes often",
+"Server Actions and forms",
+"Route handlers",
+"Request interception|Middleware or proxy files, depending on version",
+"Rendering modes|SSG, SSR, ISR, streaming",
+"Metadata and SEO",
+"`next/image` and `next/font`",
+"Environment variables",
+"Deployment|Vercel or self-hosted"]],
+["Integrations",[
+"File uploads|Pre-signed S3 URLs or Cloudinary",
+"Stripe payments in test mode, with webhooks",
+"Transactional email|Resend or SendGrid",
+"Search|Postgres full-text or Algolia",
+"Analytics",
+"Background jobs|Awareness only"]]
+],
+projects:[{name:"SaaS starter",features:["Next.js, TypeScript, Postgres, Prisma","Google sign-in and email login","Organizations and roles","Stripe subscription in test mode","File uploads","Real-time notifications","Admin area","Deployed with a live URL"]}],
+check:"You can trace one request from a button click to a database row and back, and say where it could fail.",
+links:[["Next.js","https://nextjs.org/docs"],["Express","https://expressjs.com"],["NestJS","https://docs.nestjs.com"],["Prisma","https://www.prisma.io/docs"],["Stripe","https://docs.stripe.com"],["OWASP Top 10","https://owasp.org/www-project-top-ten"]]},
+
+{id:10,name:"Professional engineering",short:"Pro practices",time:"3–4 weeks",wMin:3,wMax:4,
+goal:"Learn the habits that separate someone who builds projects from someone a team can hire.",
+groups:[
+["Git and collaboration",[
+"Branching strategies|Trunk-based and Git Flow",
+"Rebase versus merge",
+"Conventional commits",
+"Writing a good pull request",
+"Giving and receiving code review",
+"Resolving merge conflicts",
+"Versioning and changelogs",
+"Agile basics|Scrum, sprints, estimation, Jira"]],
+["Delivery",[
+"Docker|Dockerfile and Compose",
+"CI/CD with GitHub Actions|Lint, test, build, deploy",
+"Preview deployments",
+"Dev, staging and production environments",
+"Cloud basics|S3 with CloudFront, EC2 and ECS overview, Vercel, Render",
+"CDN and caching",
+"Nginx|Awareness only",
+"Monorepos|Turborepo and pnpm workspaces"]],
+["Production quality",[
+"Error tracking with Sentry",
+"Logging and monitoring",
+"Web Vitals reporting",
+"Feature flags and A/B testing|Awareness",
+"Internationalization|`react-i18next` or `next-intl`",
+"`Intl` formatting and right-to-left layouts",
+"Accessibility audits",
+"Security headers and CSP",
+"Dependency updates|Dependabot or Renovate, `npm audit`",
+"Documentation|README, architecture decision records, Storybook"]],
+["Skills interviewers look for",[
+"Reading an unfamiliar codebase",
+"Breaking work into tasks and estimating",
+"Writing clear tickets and short design docs",
+"Debugging methodically",
+"Explaining trade-offs to non-engineers"]]
+],
+projects:[{name:"Capstone: a production-style app",features:["Pick a real domain: bookings, marketplace, learning platform, project tracker","TypeScript strict, Next.js or Vite with Express","Auth, roles, real-time updates, test-mode payments","Tests and CI on every pull request","Docker, Sentry, Lighthouse 90 or more","README with architecture diagram and decisions","Live demo plus a 2-minute walkthrough video"]}],
+check:"A stranger can clone your repo, follow the README, and have the app running in ten minutes.",
+links:[["GitHub Actions","https://docs.github.com/actions"],["Docker","https://docs.docker.com"],["Sentry","https://docs.sentry.io"],["Turborepo","https://turborepo.com"]]},
+
+{id:11,name:"Interview and career prep",short:"Interviews",time:"Alongside phases 5–10",
+goal:"Start practicing once you are in TypeScript, and keep it going until you land the role.",
+groups:[
+["React interview topics",[
+"Virtual DOM and reconciliation",
+"Why keys matter",
+"Rules of hooks and common pitfalls",
+"Stale closures and effect dependencies",
+"Controlled versus uncontrolled components",
+"Context versus a state library",
+"Memoization trade-offs",
+"Error boundaries",
+"Suspense and concurrent features",
+"CSR, SSR and SSG compared",
+"Server Components",
+"A performance debugging story from your own project"]],
+["Build-from-scratch tasks",[
+"Debounced search with autocomplete",
+"Infinite scroll",
+"Pagination component",
+"Star rating",
+"Modal and tabs",
+"Todo with undo",
+"Countdown timer",
+"Tic-tac-toe",
+"Nested comments",
+"File explorer tree"]],
+["JavaScript interview topics",[
+"Closures and scope",
+"Prototypes and `this`",
+"Event loop output questions",
+"Promise polyfills",
+"Debounce and throttle from scratch",
+"Deep clone and flatten",
+"Currying",
+"`call`, `apply`, `bind` polyfills",
+"Array method polyfills|`map`, `filter`, `reduce`",
+"Event delegation"]],
+["Problem solving",[
+"Arrays and strings",
+"Hash maps and sets",
+"Two pointers and sliding window",
+"Stacks and queues",
+"Recursion, trees, DFS and BFS",
+"Sorting and binary search",
+"Big-O analysis|Steady practice beats volume; start with easy and medium"]],
+["Frontend system design",[
+"Autocomplete",
+"News feed with infinite scroll",
+"Chat and real-time updates",
+"Image gallery with lazy loading",
+"A component library",
+"Discussion checklist|State, API shape, caching, accessibility, performance, errors"]],
+["Career",[
+"Pinned GitHub projects|3 or 4, each with a live demo and README",
+"One-page resume with measurable results",
+"Portfolio site",
+"LinkedIn profile",
+"Mock interviews",
+"Open-source contributions|Start with good-first-issue labels",
+"Job search channels|Referrals, LinkedIn, Wellfound, company career pages"]]
+],
+projects:[],
+check:"You can build a small component live in 30 minutes while explaining your choices out loud.",
+links:[["roadmap.sh Frontend","https://roadmap.sh/frontend"],["GreatFrontEnd","https://www.greatfrontend.com"],["NeetCode","https://neetcode.io"],["LeetCode","https://leetcode.com"]]}
+];
+/*END-DATA*/
+
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const fmt=s=>esc(s).replace(/`([^`]+)`/g,'<code>$1</code>');
+const slug=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+
+const KEY='react-roadmap-v1';
+let done={};
+try{done=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){done={}}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(done))}catch(e){}};
+
+/* phases */
+function phaseHTML(p){
+  p.keys=[];
+  const seen={};
+  let h='<section class="phase" id="phase-'+p.id+'" aria-labelledby="h-'+p.id+'">';
+  h+='<header class="phase-head"><div class="pnum">'+p.id+'</div><div>';
+  h+='<h2 id="h-'+p.id+'"><span class="sr">Phase '+p.id+': </span>'+esc(p.name)+'</h2>';
+  h+='<div class="phase-meta"><span class="pill">'+esc(p.time)+'</span><span class="pcount" data-pc="'+p.id+'"></span></div>';
+  h+='<p class="goal">'+fmt(p.goal)+'</p></div></header>';
+  p.groups.forEach(function(g){
+    h+='<div class="group"><h3 class="g-title">'+esc(g[0])+'</h3><ul class="items">';
+    g[1].forEach(function(s){
+      const parts=s.split('|');
+      let k=p.id+':'+slug(parts[0]);
+      seen[k]=(seen[k]||0)+1;
+      if(seen[k]>1)k+='-'+seen[k];
+      p.keys.push(k);
+      h+='<li><label><input type="checkbox" data-k="'+k+'"><span class="it"><span class="t">'+fmt(parts[0])+'</span>';
+      if(parts[1])h+='<span class="note">'+fmt(parts[1])+'</span>';
+      h+='</span></label></li>';
+    });
+    h+='</ul></div>';
+  });
+  if(p.projects.length){
+    h+='<aside class="build" aria-label="Projects for phase '+p.id+'"><p class="build-label">Build</p>';
+    p.projects.forEach(function(pr){
+      h+='<div class="proj"><h4>'+fmt(pr.name)+'</h4><ul>'+pr.features.map(function(f){return '<li>'+fmt(f)+'</li>'}).join('')+'</ul></div>';
+    });
+    h+='</aside>';
+  }
+  h+='<p class="check"><strong>Checkpoint.</strong> '+fmt(p.check)+'</p>';
+  if(p.links&&p.links.length){
+    h+='<p class="refs"><b>Docs</b>'+p.links.map(function(l){return '<a href="'+l[1]+'" target="_blank" rel="noopener">'+esc(l[0])+'</a>'}).join('')+'</p>';
+  }
+  return h+'</section>';
+}
+document.getElementById('phases').innerHTML=PHASES.map(phaseHTML).join('');
+
+/* nav */
+let nav=PHASES.map(function(p){
+  return '<li><a href="#phase-'+p.id+'"><span class="num">'+p.id+'</span><span>'+esc(p.short)+'</span><span class="cnt" data-tc="'+p.id+'"></span></a></li>';
+}).join('');
+nav+='<li class="sep" aria-hidden="true"></li><li><a href="#stack"><span class="num"></span><span>Final stack</span><span class="cnt"></span></a></li>';
+nav+='<li><a href="#mistakes"><span class="num"></span><span>Mistakes</span><span class="cnt"></span></a></li>';
+document.getElementById('toc-list').innerHTML=nav;
+
+/* timeline to scale */
+(function(){
+  const seq=PHASES.filter(function(p){return p.wMax});
+  const total=seq.reduce(function(a,p){return a+p.wMax},0);
+  const fast=seq.reduce(function(a,p){return a+p.wMin},0);
+  let cur=0;
+  let h='<div class="tl" style="--total:'+total+'">';
+  seq.forEach(function(p){
+    const left=cur/total*100, w=p.wMax/total*100, inner=p.wMin/p.wMax*100;
+    const wk=p.wMin===p.wMax?p.wMin+'w':p.wMin+'–'+p.wMax+'w';
+    h+='<div class="tl-row"><div class="tl-lab"><span class="num">'+p.id+'</span><span class="nm">'+esc(p.short)+'</span><span class="wk">'+wk+'</span></div>';
+    h+='<div class="tl-track"><div class="tl-bar" style="left:'+left.toFixed(3)+'%;width:'+w.toFixed(3)+'%"><i style="width:'+inner.toFixed(2)+'%"></i></div></div></div>';
+    cur+=p.wMax;
+  });
+  h+='<div class="tl-axis"><div class="ax-l">week</div><div class="tl-ticks">';
+  for(let t=0;t<=total;t+=10){h+='<span style="left:'+(t/total*100).toFixed(3)+'%">'+t+'</span>'}
+  h+='</div></div></div>';
+  h+='<div class="tl-key"><span><i class="a"></i>Fast pace: '+fast+' weeks in total</span><span><i class="b"></i>Extra time to allow: up to '+total+' weeks in total</span></div>';
+  document.getElementById('tl').innerHTML=h;
+})();
+
+/* progress */
+function update(){
+  let all=0,dn=0;
+  PHASES.forEach(function(p){
+    const d=p.keys.filter(function(k){return done[k]}).length;
+    all+=p.keys.length;dn+=d;
+    document.querySelectorAll('[data-pc="'+p.id+'"]').forEach(function(el){el.textContent=d+' of '+p.keys.length+' done'});
+    document.querySelectorAll('[data-tc="'+p.id+'"]').forEach(function(el){el.textContent=d+'/'+p.keys.length});
+  });
+  const pct=all?Math.round(dn/all*100):0;
+  document.getElementById('ov-text').textContent=dn+' of '+all+' topics ('+pct+'%)';
+  document.getElementById('ov-fill').style.width=pct+'%';
+  document.getElementById('ov-bar').setAttribute('aria-valuenow',pct);
+}
+document.querySelectorAll('input[data-k]').forEach(function(i){
+  if(done[i.dataset.k]){i.checked=true;i.closest('li').classList.add('done')}
+});
+document.getElementById('phases').addEventListener('change',function(e){
+  const i=e.target;
+  if(!i.matches||!i.matches('input[data-k]'))return;
+  if(i.checked)done[i.dataset.k]=1;else delete done[i.dataset.k];
+  i.closest('li').classList.toggle('done',i.checked);
+  save();update();
+});
+update();
+
+/* reset with in-page confirm */
+const rb=document.getElementById('reset');let rt;
+function disarm(){clearTimeout(rt);delete rb.dataset.arm;rb.textContent='Reset progress'}
+rb.addEventListener('click',function(){
+  if(rb.dataset.arm){
+    done={};save();
+    document.querySelectorAll('input[data-k]').forEach(function(i){i.checked=false;i.closest('li').classList.remove('done')});
+    update();disarm();
+  }else{
+    rb.dataset.arm='1';rb.textContent='Click again to clear all progress';
+    rt=setTimeout(disarm,4000);
+  }
+});
+
+/* highlight current section in the index */
+(function(){
+  if(!('IntersectionObserver' in window))return;
+  const links=Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  const map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a});
+  const io=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting&&map[e.target.id]){
+        links.forEach(function(a){a.removeAttribute('aria-current')});
+        map[e.target.id].setAttribute('aria-current','true');
+      }
+    });
+  },{rootMargin:'-10% 0px -75% 0px'});
+  document.querySelectorAll('#phases section[id],#stack,#mistakes').forEach(function(s){io.observe(s)});
+})();
+</script>
+
+</body></html>

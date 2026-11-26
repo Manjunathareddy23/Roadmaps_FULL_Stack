@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Backend Mastery Roadmap</title>
+<style>
+  :root{
+    --bg:#0b0f1a;
+    --bg2:#11182b;
+    --card:#141c31;
+    --card-border:#243150;
+    --accent:#ff7a45;
+    --accent2:#5b8cff;
+    --accent3:#2ee6a6;
+    --text:#eef1f8;
+    --muted:#8d98b8;
+    --font:'Segoe UI',system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:var(--font);
+    background:radial-gradient(1200px 600px at 10% -10%, #1b2440 0%, var(--bg) 60%);
+    color:var(--text);
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--accent);color:#000;}
+
+  /* ---------- progress bar ---------- */
+  #progress{
+    position:fixed;top:0;left:0;height:4px;
+    background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent3));
+    width:0%;z-index:999;transition:width .1s ease-out;
+  }
+
+  /* ---------- nav dots ---------- */
+  nav.dots{
+    position:fixed;right:18px;top:50%;transform:translateY(-50%);
+    display:flex;flex-direction:column;gap:10px;z-index:900;
+  }
+  nav.dots a{
+    width:9px;height:9px;border-radius:50%;
+    background:var(--card-border);display:block;
+    transition:all .25s ease;
+  }
+  nav.dots a.active{background:var(--accent);box-shadow:0 0 12px var(--accent);transform:scale(1.4);}
+
+  section{
+    min-height:100vh;
+    padding:100px 8vw;
+    display:flex;flex-direction:column;justify-content:center;
+    position:relative;
+  }
+
+  /* ---------- hero ---------- */
+  .hero{
+    align-items:flex-start;
+    background:
+      radial-gradient(600px 300px at 85% 15%, rgba(91,140,255,.25), transparent 70%),
+      radial-gradient(500px 260px at 15% 85%, rgba(255,122,69,.18), transparent 70%);
+  }
+  .hero .tag{
+    color:var(--accent3);letter-spacing:4px;font-size:13px;font-weight:700;
+    text-transform:uppercase;margin-bottom:18px;opacity:0;animation:fadeUp .8s .1s forwards;
+  }
+  .hero h1{
+    font-size:clamp(38px,6vw,86px);line-height:1.05;font-weight:800;
+    background:linear-gradient(100deg,#fff 30%,var(--accent2) 60%,var(--accent) 90%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    opacity:0;animation:fadeUp .9s .25s forwards;max-width:14ch;
+  }
+  .hero p.sub{
+    margin-top:26px;font-size:clamp(16px,2vw,22px);color:var(--muted);max-width:60ch;
+    opacity:0;animation:fadeUp .9s .45s forwards;
+  }
+  .hero .stats{
+    display:flex;gap:40px;margin-top:56px;flex-wrap:wrap;
+    opacity:0;animation:fadeUp .9s .65s forwards;
+  }
+  .hero .stats div h3{font-size:clamp(26px,3vw,40px);color:var(--text);font-weight:800;}
+  .hero .stats div h3 span{color:var(--accent);}
+  .hero .stats div p{color:var(--muted);font-size:13px;text-transform:uppercase;letter-spacing:1.5px;margin-top:4px;}
+  .scrolldown{
+    position:absolute;bottom:40px;left:8vw;display:flex;align-items:center;gap:10px;
+    color:var(--muted);font-size:13px;opacity:0;animation:fadeUp 1s 1s forwards;
+  }
+  .scrolldown .arrow{width:18px;height:18px;border-right:2px solid var(--accent);border-bottom:2px solid var(--accent);transform:rotate(45deg);animation:bounce 1.6s infinite;}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes bounce{0%,100%{transform:translateY(0) rotate(45deg);}50%{transform:translateY(8px) rotate(45deg);}}
+
+  /* ---------- section headers ---------- */
+  .label{
+    color:var(--accent3);letter-spacing:3px;font-size:12px;font-weight:700;text-transform:uppercase;
+  }
+  h2.title{font-size:clamp(28px,4vw,48px);font-weight:800;margin-top:10px;max-width:22ch;}
+  p.lede{color:var(--muted);font-size:17px;max-width:65ch;margin-top:16px;}
+
+  .reveal{opacity:0;transform:translateY(40px);transition:opacity .7s ease,transform .7s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  /* ---------- mentor / method ---------- */
+  .steps{
+    margin-top:50px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;
+  }
+  .steps .step{
+    background:var(--card);border:1px solid var(--card-border);border-radius:14px;padding:18px 20px;
+    transition:transform .3s ease,border-color .3s ease,box-shadow .3s ease;
+  }
+  .steps .step:hover{transform:translateY(-6px);border-color:var(--accent2);box-shadow:0 12px 30px rgba(91,140,255,.15);}
+  .steps .step .n{color:var(--accent);font-weight:800;font-size:13px;}
+  .steps .step .t{margin-top:6px;font-weight:600;font-size:15px;}
+
+  /* ---------- phases ---------- */
+  .phase-grid{margin-top:50px;display:flex;flex-direction:column;gap:14px;}
+  .phase{
+    background:linear-gradient(135deg,var(--card),var(--bg2));
+    border:1px solid var(--card-border);border-radius:16px;overflow:hidden;
+    transition:border-color .3s ease, box-shadow .3s ease;
+  }
+  .phase:hover{border-color:var(--accent);box-shadow:0 16px 40px rgba(0,0,0,.35);}
+  .phase .head{
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+    padding:20px 26px;cursor:pointer;user-select:none;
+  }
+  .phase .head .left{display:flex;align-items:center;gap:18px;}
+  .phase .num{
+    font-size:13px;font-weight:800;color:#000;background:var(--accent);
+    border-radius:8px;padding:6px 10px;min-width:46px;text-align:center;
+  }
+  .phase .name{font-size:18px;font-weight:700;}
+  .phase .count{color:var(--muted);font-size:13px;}
+  .phase .chev{
+    width:10px;height:10px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);
+    transform:rotate(45deg);transition:transform .3s ease;
+  }
+  .phase.open .chev{transform:rotate(225deg);}
+  .phase .body{
+    max-height:0;overflow:hidden;transition:max-height .4s ease, padding .4s ease;
+    padding:0 26px;
+  }
+  .phase.open .body{max-height:900px;padding:0 26px 26px;}
+  .topic-list{display:flex;flex-wrap:wrap;gap:8px;}
+  .topic-list span{
+    background:rgba(91,140,255,.1);border:1px solid var(--card-border);color:var(--text);
+    font-size:13px;padding:6px 12px;border-radius:999px;
+  }
+
+  /* ---------- CTA footer ---------- */
+  .cta{
+    text-align:center;align-items:center;
+  }
+  .cta h2{font-size:clamp(28px,5vw,56px);font-weight:800;max-width:18ch;}
+  .cta p{color:var(--muted);margin-top:18px;max-width:50ch;}
+  .cta .badge{
+    margin-top:40px;display:inline-flex;gap:10px;align-items:center;
+    background:var(--card);border:1px solid var(--card-border);padding:14px 26px;border-radius:999px;
+    font-weight:700;
+  }
+  .dot3{display:inline-flex;gap:6px;}
+  .dot3 i{width:7px;height:7px;border-radius:50%;background:var(--accent3);animation:pulse 1.4s infinite ease-in-out;}
+  .dot3 i:nth-child(2){animation-delay:.2s;background:var(--accent2);}
+  .dot3 i:nth-child(3){animation-delay:.4s;background:var(--accent);}
+  @keyframes pulse{0%,100%{transform:scale(.6);opacity:.5;}50%{transform:scale(1);opacity:1;}}
+
+  footer{padding:30px 8vw;color:var(--muted);font-size:13px;text-align:center;border-top:1px solid var(--card-border);}
+
+  @media(max-width:700px){
+    nav.dots{display:none;}
+    section{padding:80px 6vw;}
+  }
+
+  .topnav{position:sticky;top:0;z-index:950;display:flex;align-items:center;gap:6px;
+    padding:14px 8vw;background:rgba(11,15,26,.85);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--card-border);}
+  .topnav .brand{font-weight:800;margin-right:auto;font-size:15px;}
+  .topnav .brand span{color:var(--accent);}
+  .tab-btn{background:transparent;border:1px solid var(--card-border);color:var(--muted);
+    padding:8px 18px;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer;
+    transition:all .2s ease;}
+  .tab-btn.active{background:var(--accent);border-color:var(--accent);color:#1a0d05;}
+  .tab-btn:not(.active):hover{border-color:var(--accent2);color:var(--text);}
+  .view{display:none;}
+  .view.active{display:block;}
+
+  .lessons-wrap{display:flex;min-height:calc(100vh - 57px);}
+  .lesson-side{width:320px;flex-shrink:0;border-right:1px solid var(--card-border);
+    padding:24px 14px;overflow-y:auto;max-height:calc(100vh - 57px);position:sticky;top:57px;}
+  .lesson-side .ph{margin-bottom:6px;}
+  .lesson-side .ph-head{padding:10px 12px;font-size:13px;font-weight:700;color:var(--text);
+    display:flex;justify-content:space-between;cursor:pointer;border-radius:8px;}
+  .lesson-side .ph-head:hover{background:var(--card);}
+  .lesson-side .ph-head .pn{color:var(--accent);margin-right:8px;}
+  .lesson-side .ph-topics{display:none;flex-direction:column;gap:2px;padding:2px 0 8px 26px;}
+  .lesson-side .ph.open .ph-topics{display:flex;}
+  .lesson-side .topic-link{text-align:left;background:none;border:none;color:var(--muted);
+    font-size:13px;padding:7px 10px;border-radius:7px;cursor:pointer;display:flex;
+    align-items:center;gap:8px;}
+  .lesson-side .topic-link:hover{background:var(--card);color:var(--text);}
+  .lesson-side .topic-link.active{background:rgba(255,122,69,.15);color:var(--accent);font-weight:700;}
+  .lesson-side .topic-link .dot{width:7px;height:7px;border-radius:50%;background:var(--card-border);flex-shrink:0;}
+  .lesson-side .topic-link.done .dot{background:var(--accent3);}
+
+  .lesson-main{flex:1;padding:40px 5vw 80px;max-width:900px;}
+  .lesson-empty{color:var(--muted);padding-top:80px;text-align:center;}
+  .lesson-empty h3{color:var(--text);font-size:22px;margin-bottom:10px;}
+  .locked-card{background:var(--card);border:1px dashed var(--card-border);border-radius:14px;
+    padding:40px;text-align:center;color:var(--muted);margin-top:40px;}
+  .locked-card .lock{font-size:30px;margin-bottom:10px;}
+
+  .lesson h1{font-size:clamp(26px,3.4vw,38px);font-weight:800;margin-bottom:6px;}
+  .lesson .crumb{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .lesson .step{margin-top:34px;}
+  .lesson .step .stag{display:inline-block;color:var(--accent3);font-size:11px;font-weight:800;
+    letter-spacing:1.5px;text-transform:uppercase;background:rgba(46,230,166,.1);
+    padding:4px 10px;border-radius:999px;margin-bottom:10px;}
+  .lesson .step h3{font-size:18px;font-weight:700;margin-bottom:10px;}
+  .lesson .step p{color:#cfd6e8;line-height:1.75;font-size:15.5px;}
+  .lesson .step p+p{margin-top:10px;}
+  .callout{background:var(--card);border-left:3px solid var(--accent2);border-radius:8px;
+    padding:14px 18px;margin-top:10px;font-size:14.5px;color:#cfd6e8;line-height:1.7;}
+  .callout.warn{border-left-color:var(--accent);}
+  .callout.ex{border-left-color:var(--accent3);}
+  pre{background:#0a0e18;border:1px solid var(--card-border);border-radius:10px;
+    padding:16px 18px;overflow-x:auto;margin-top:10px;}
+  pre code{font-family:'Consolas','Monaco',monospace;font-size:13.5px;color:#d7e2ff;line-height:1.6;}
+  .qa{background:var(--card);border:1px solid var(--card-border);border-radius:10px;
+    padding:12px 16px;margin-top:10px;}
+  .qa .lvl{font-size:11px;font-weight:800;color:var(--accent2);text-transform:uppercase;letter-spacing:1px;}
+  .qa p{margin-top:4px;}
+  .lesson-nav{display:flex;justify-content:space-between;margin-top:50px;padding-top:24px;
+    border-top:1px solid var(--card-border);}
+  .lesson-nav button{background:var(--card);border:1px solid var(--card-border);color:var(--text);
+    padding:12px 20px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:600;}
+  .lesson-nav button:hover{border-color:var(--accent2);}
+  @media(max-width:900px){.lessons-wrap{flex-direction:column;}.lesson-side{width:100%;position:static;max-height:none;border-right:none;border-bottom:1px solid var(--card-border);}}
+</style>
+</head>
+<body>
+
+<div class="topnav">
+  <div class="brand">Java<span>Mentor</span></div>
+  <button class="tab-btn" id="tab-roadmap" onclick="showView('roadmap')">Roadmap</button>
+  <button class="tab-btn active" id="tab-lessons" onclick="showView('lessons')">Lessons</button>
+</div>
+
+<div id="progress"></div>
+<nav class="dots" id="dots"></nav>
+
+<div class="view" id="view-roadmap">
+<section class="hero" id="s-hero">
+  <div class="tag">25+ Years Experience &middot; Personal Mentor Mode</div>
+  <h1>From Zero to Industry‑Ready Java Backend Engineer</h1>
+  <p class="sub">A complete, project‑driven mastery roadmap — Core Java, Collections, Multithreading, Spring Boot, System Design, LLD, Databases and Interview Prep — taught the way a Staff Engineer would teach a total beginner.</p>
+  <div class="stats">
+    <div><h3><span>20</span></h3><p>Phases</p></div>
+    <div><h3><span>120+</span></h3><p>Topics</p></div>
+    <div><h3><span>14</span></h3><p>Teaching Steps / Topic</p></div>
+    <div><h3><span>1</span></h3><p>Capstone Project</p></div>
+  </div>
+  <div class="scrolldown"><div class="arrow"></div> Scroll to explore the roadmap</div>
+</section>
+
+<section id="s-method">
+  <div class="label reveal">Teaching Philosophy</div>
+  <h2 class="title reveal">Every topic, explained like you're hearing it for the first time — twice.</h2>
+  <p class="lede reveal">No theory dumps. Every concept is unpacked the same rigorous way: real-life analogy first, internal working second, production usage last — so nothing is ever "just memorized."</p>
+  <div class="steps reveal">
+    <div class="step"><div class="n">01</div><div class="t">What Problem It Solves</div></div>
+    <div class="step"><div class="n">02</div><div class="t">Why It Was Created</div></div>
+    <div class="step"><div class="n">03</div><div class="t">Real‑Life Analogy</div></div>
+    <div class="step"><div class="n">04</div><div class="t">Technical Definition</div></div>
+    <div class="step"><div class="n">05</div><div class="t">Internal Working</div></div>
+    <div class="step"><div class="n">06</div><div class="t">Simple Example</div></div>
+    <div class="step"><div class="n">07</div><div class="t">Real Project Example</div></div>
+    <div class="step"><div class="n">08</div><div class="t">Common Mistakes</div></div>
+    <div class="step"><div class="n">09</div><div class="t">Interview Questions</div></div>
+    <div class="step"><div class="n">10</div><div class="t">Advanced Concepts</div></div>
+    <div class="step"><div class="n">11</div><div class="t">Industry Usage</div></div>
+    <div class="step"><div class="n">12</div><div class="t">Coding Exercise</div></div>
+    <div class="step"><div class="n">13</div><div class="t">Mini Project</div></div>
+    <div class="step"><div class="n">14</div><div class="t">Production‑Level Usage</div></div>
+  </div>
+</section>
+
+<section id="s-phases">
+  <div class="label reveal">The Roadmap</div>
+  <h2 class="title reveal">20 phases. Click to expand.</h2>
+  <p class="lede reveal">From "What is a variable?" to deploying a secured, dockerized Spring Boot capstone with CI/CD. Every phase builds directly on the last.</p>
+  <div class="phase-grid reveal" id="phase-grid"></div>
+</section>
+
+<section class="cta" id="s-cta">
+  <div class="label reveal">Mentorship Mode: On</div>
+  <h2 class="reveal">Act as my personal mentor until I reach Senior Java Backend Developer level.</h2>
+  <p class="reveal">One topic fully mastered before the next begins. Beginner → Intermediate → Senior → Scenario → Architecture questions, every single time.</p>
+  <div class="badge reveal"><div class="dot3"><i></i><i></i><i></i></div> Ready when you are</div>
+</section>
+
+<div class="view active" id="view-lessons">
+  <div class="lessons-wrap">
+    <aside class="lesson-side" id="lesson-side"></aside>
+    <main class="lesson-main" id="lesson-main">
+      <div class="lesson-empty">
+        <h3>Pick a topic from the left</h3>
+        <p>Lessons unlock one at a time as we work through them together in chat.<br>Green dot = fully taught and saved here.</p>
+      </div>
+    </main>
+  </div>
+</div>
+</div>
+<footer>Java Backend Mastery Roadmap &middot; Generated from your mentorship brief</footer>
+
+<script>
+const phases = [
+  {n:1, name:"Core Java Masterclass", topics:["JDK/JRE/JVM","Bytecode & Compilation","Variables & Data Types","Operators & Casting","Control Statements & Loops","Arrays & Methods","Recursion","Strings, StringBuilder, StringBuffer","Wrapper Classes","Access Modifiers & Packages","static / final / this / super","Constructors & Chaining","OOP: Encapsulation, Abstraction, Inheritance, Polymorphism","Association, Aggregation, Composition","Inner / Anonymous / Nested Classes","Object class: equals, hashCode, clone, finalize"]},
+  {n:2, name:"Exception Handling Masterclass", topics:["Errors vs Exceptions","Checked vs Unchecked","Throwable Hierarchy","try/catch/finally/throw/throws","Custom Exceptions","Exception Propagation","Global Exception Strategies","Banking / ATM / E‑Commerce Examples","Stack Trace & Debugging"]},
+  {n:3, name:"Collections Framework", topics:["List, Set, Map, Queue","ArrayList, LinkedList, Vector, Stack","HashSet, LinkedHashSet, TreeSet","HashMap, LinkedHashMap, TreeMap","PriorityQueue","Hashing, Collisions, Buckets, Rehashing","Time Complexity & Internal DS"]},
+  {n:4, name:"Multithreading", topics:["Thread Lifecycle","Runnable vs Callable vs Future","ExecutorService & Thread Pool","Synchronization & Volatile","Atomic Variables & Locks","Deadlocks & Race Conditions","CompletableFuture","Restaurant / Airport / Bank Analogies"]},
+  {n:5, name:"Java 8 → Latest Features", topics:["Lambda & Functional Interfaces","Streams & Parallel Streams","Optional & Method References","Predicate, Function, Consumer, Supplier","Collectors, Grouping, Reduction, FlatMap","Date Time API","Records, Sealed Classes","Virtual Threads & Pattern Matching"]},
+  {n:6, name:"JDBC Masterclass", topics:["Driver & Connection","PreparedStatement vs Statement","ResultSet","Transactions: Commit/Rollback","Batch Processing","Connection Pooling","Controller → Service → JDBC → DB flow"]},
+  {n:7, name:"Hibernate Masterclass", topics:["ORM & Why Hibernate","Entity Lifecycle & Persistence Context","Caching","@OneToOne/@OneToMany/@ManyToOne/@ManyToMany","Fetch & Cascade Types","JPQL & Criteria API","N+1 Problem","Lazy vs Eager Loading"]},
+  {n:8, name:"Spring Core", topics:["IoC & Dependency Injection","Bean, Component, Autowired","Primary & Qualifier","Bean Scope & Configuration","Profiles & Lifecycle","Factory / Restaurant / Company Analogies"]},
+  {n:9, name:"Spring Boot Masterclass", topics:["Auto‑Configuration","Starter Dependencies","application.properties / YAML","Actuator & Profiles","Logging & Config Management","Internal Startup Process"]},
+  {n:10, name:"Building a Real Project", topics:["Controller, DTO, Entity, Repository","Service & ServiceImpl","Validation & Global Exception Handling","Mapper, Config, Util, Security","Pagination & Sorting","Swagger, Testing, Logging","Employee Management System"]},
+  {n:11, name:"Spring Security", topics:["Authentication vs Authorization","JWT & OAuth2","Sessions & Cookies","CSRF & Role‑Based Access","Refresh Tokens","Full Security Flow Diagrams"]},
+  {n:12, name:"JPA Masterclass", topics:["Repositories & Derived Queries","Custom & Native Queries","JPQL & Specifications","Pagination, Sorting, Auditing","Generated SQL Explained"]},
+  {n:13, name:"Testing", topics:["JUnit & Mockito","Integration Testing","TestContainers & MockMVC","Coverage & Best Practices"]},
+  {n:14, name:"System Design (from Zero)", topics:["Scalability, Availability, Reliability","Latency vs Throughput","Load Balancer & Reverse Proxy","CDN & Caching (Redis)","DB Scaling: Replication & Sharding","Microservices & Message Queues (Kafka, RabbitMQ)","Docker & Kubernetes","API Gateway, Service Discovery","Circuit Breaker & Rate Limiting","Event‑Driven Architecture"]},
+  {n:15, name:"Low Level Design", topics:["SOLID Principles","Builder, Factory, Singleton","Strategy, Observer, Decorator","Adapter, Facade, Template Method","Dependency Injection Patterns"]},
+  {n:16, name:"Database Design", topics:["Normalization & Joins","Indexes & Query Optimization","Transactions & ACID","Locks","Real SQL Examples"]},
+  {n:17, name:"Real‑World Debugging", topics:["NullPointerException Patterns","Memory Leaks","Performance & Concurrency Issues","Hibernate Bugs","How Senior Devs Debug Production"]},
+  {n:18, name:"Interview Preparation", topics:["Beginner → Senior Question Ladders","Scenario‑Based Questions","Coding & Architecture Questions","Project Deep‑Dive Questions"]},
+  {n:19, name:"Assignments", topics:["10 Easy + 10 Medium + 10 Hard per topic","Attempt‑First, Solution‑After Model"]},
+  {n:20, name:"Capstone Project", topics:["Employee Management System","Auth + JWT + Spring Security","Hibernate + JPA + MySQL","Swagger + Logging + Exception Handling","Pagination & Sorting","Docker, Deployment, CI/CD","Production Best Practices"]}
+];
+
+const grid = document.getElementById('phase-grid');
+grid.innerHTML = phases.map(p => `
+  <div class="phase" id="phase-${p.n}">
+    <div class="head" onclick="this.parentElement.classList.toggle('open')">
+      <div class="left">
+        <div class="num">P${p.n}</div>
+        <div class="name">${p.name}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px;">
+        <div class="count">${p.topics.length} topics</div>
+        <div class="chev"></div>
+      </div>
+    </div>
+    <div class="body">
+      <div class="topic-list">${p.topics.map(t=>`<span>${t}</span>`).join('')}</div>
+    </div>
+  </div>
+`).join('');
+
+// progress bar
+const progress = document.getElementById('progress');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+  progress.style.width = scrolled + '%';
+});
+
+// reveal on scroll
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); } });
+}, {threshold:0.12});
+revealEls.forEach(el => io.observe(el));
+
+// nav dots
+const sections = document.querySelectorAll('section');
+const dotsNav = document.getElementById('dots');
+sections.forEach((s,i) => {
+  const a = document.createElement('a');
+  a.href = '#' + s.id;
+  dotsNav.appendChild(a);
+});
+const dotEls = dotsNav.querySelectorAll('a');
+const navIo = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    const idx = [...sections].indexOf(e.target);
+    if (e.isIntersecting) {
+      dotEls.forEach(d=>d.classList.remove('active'));
+      dotEls[idx].classList.add('active');
+    }
+  });
+}, {threshold:0.5});
+sections.forEach(s => navIo.observe(s));
+
+// open first phase by default
+document.getElementById('phase-1').classList.add('open');
+
+function showView(name){
+  document.getElementById('view-roadmap').classList.toggle('active', name==='roadmap');
+  document.getElementById('view-lessons').classList.toggle('active', name==='lessons');
+  document.getElementById('tab-roadmap').classList.toggle('active', name==='roadmap');
+  document.getElementById('tab-lessons').classList.toggle('active', name==='lessons');
+}
+
+const lessonsData = {};
+
+lessonsData["p1-0"] = {
+  title: "JDK, JRE & JVM",
+  phase: "Phase 1 - Core Java Masterclass",
+  html: `
+    <div class="step"><span class="stag">Step 1 - Problem it solves</span>
+      <h3>Writing code once, running it anywhere</h3>
+      <p>You write Java code (human-readable), but a computer's processor only understands machine code specific to that exact machine. JDK, JRE and JVM exist to answer: how do I write code once and run it on any computer, regardless of hardware or OS?</p>
+    </div>
+    <div class="step"><span class="stag">Step 2 - Why it was created</span>
+      <p>Before Java, C code written on Windows had to be rewritten and recompiled to run on Mac or Linux. Java's creators wanted "Write Once, Run Anywhere" - so they invented a virtual computer that behaves identically on every operating system.</p>
+    </div>
+    <div class="step"><span class="stag">Step 3 - Real-life analogy</span>
+      <div class="callout">Think of a restaurant kitchen:<br><br>
+      <b>JDK</b> = the entire kitchen - stove, ingredients, recipe books, knives. Everything a chef (developer) needs to cook (write and build) a dish.<br><br>
+      <b>JRE</b> = just the dining table - the ability to eat a dish someone already cooked. No stove or knives needed, just the environment to consume it.<br><br>
+      <b>JVM</b> = your stomach - what actually digests the food into energy. It takes the cooked dish (compiled code) and makes it run, no matter whose body (OS) it's in.</div>
+    </div>
+    <div class="step"><span class="stag">Step 4 - Technical definition</span>
+      <p><b>JVM</b> - a virtual machine that executes Java bytecode. It's an abstract specification; every OS has its own real JVM implementation, but all behave the same way to your code.</p>
+      <p><b>JRE</b> - JVM + core libraries (java.util, java.lang) + supporting files needed to run a Java program. No compiler included.</p>
+      <p><b>JDK</b> - JRE + development tools: compiler (javac), debugger, documentation tools. Needed to write and build Java programs.</p>
+      <p>So: <b>JDK contains JRE, JRE contains JVM.</b></p>
+    </div>
+    <div class="step"><span class="stag">Step 5 - Internal working</span>
+      <p>1. You write Hello.java (source code).<br>
+      2. The JDK's compiler (javac) converts it into Hello.class - bytecode, not machine code. Universal format, same on every OS.<br>
+      3. The JVM (inside the JRE) reads that bytecode and translates it into the actual machine instructions your specific CPU/OS understands.</p>
+      <p>This is why the same .class file runs unchanged on Windows, Linux or Mac - each has its own JVM, but all read the same bytecode.</p>
+    </div>
+    <div class="step"><span class="stag">Step 6 - Simple example</span>
+      <pre><code>// Hello.java
+public class Hello {
+    public static void main(String[] args) {
+        System.out.println("Hello, Java!");
+    }
+}</code></pre>
+      <pre><code>javac Hello.java     // produces Hello.class (bytecode)
+java Hello            // JVM runs the bytecode -> prints: Hello, Java!</code></pre>
+      <p>javac needs the JDK. java only needs the JRE (bundled inside the JDK anyway).</p>
+    </div>
+    <div class="step"><span class="stag">Step 7 - Real project example</span>
+      <p>At a company, a build tool like Maven uses the JDK to compile hundreds of .java files into .class files, then packages them into a .jar. That .jar gets deployed to a production server, which only needs a JRE (or a full JDK) to run it - the server never needs the "kitchen", just the "stomach".</p>
+    </div>
+    <div class="step"><span class="stag">Step 8 - Common mistakes</span>
+      <div class="callout warn">
+      - Thinking JVM, JRE, JDK are three unrelated tools - they're nested, not separate.<br>
+      - Installing only a JRE then wondering why javac doesn't work - JRE has no compiler.<br>
+      - Confusing bytecode with machine code - bytecode is a middle format; only the JVM turns it into real machine code.</div>
+    </div>
+    <div class="step"><span class="stag">Step 9 - Interview questions</span>
+      <div class="qa"><span class="lvl">Beginner</span><p>What's the difference between JDK, JRE and JVM?</p></div>
+      <div class="qa"><span class="lvl">Intermediate</span><p>Why is Java "platform independent" if the JVM itself is platform-dependent? (Hint: the bytecode is platform-independent; the per-OS JVM absorbs the difference.)</p></div>
+      <div class="qa"><span class="lvl">Senior / Scenario</span><p>If you only need to run a Java app in production, not build it, what's the minimum install needed, and why do companies often install the full JDK anyway?</p></div>
+    </div>
+    <div class="step"><span class="stag">Step 10-11 - Advanced + industry usage</span>
+      <p>In real companies, JVM-level tuning (heap size, garbage collection settings) is a serious job on its own - covered later when we reach JVM internals. Cloud platforms also run many JVMs across Docker containers, which connects to System Design (Phase 14).</p>
+    </div>
+    <div class="step"><span class="stag">Step 12 - Hands-on exercise</span>
+      <div class="callout ex">Write a tiny Java file that prints your name. Identify: which command uses the JDK's compiler, and which uses the JVM. Trace what happens to your .java file step by step, then bring your answer back to chat.</div>
+    </div>
+    <div class="step"><span class="stag">Step 13-14 - Mini project + production usage</span>
+      <p>We'll build toward a full production-style project in Phase 10 (Employee Management System). For now: every Java app you'll ever touch, no matter how big, starts with this exact three-layer pipeline.</p>
+    </div>
+  `
+};
+
+
+lessonsData["p1-1"] = {
+  title: 'Bytecode & Compilation Process',
+  phase: "Phase 1 - Core Java Masterclass",
+  html: `
+    <div class="step"><span class="stag">Technical coverage</span>
+      <p>javac compiles a .java file into a .class file containing bytecode - a set of JVM instructions, not native machine code. Compilation runs in stages: lexical analysis, parsing, semantic checks, then bytecode generation. At runtime the JVM's interpreter (or JIT compiler, for speed) turns that bytecode into real machine instructions for the CPU it's running on.</p>
+    </div>
+    <div class="step"><span class="stag">Industry usage</span>
+      <p>Build tools like Maven and Gradle automate compiling thousands of files per project. Every CI/CD pipeline runs javac as part of the build step before tests and deployment. Security teams and reverse-engineers inspect bytecode with decompilers when source isn't available.</p>
+    </div>
+    <div class="step"><span class="stag">Mini project example</span>
+      <pre><code>javac Hello.java
+javap -c Hello</code></pre><p>javap -c prints the actual bytecode instructions (getstatic, invokevirtual, etc.) generated from your source - a good way to literally see what javac produced.</p>
+    </div>
+  `
+};
+
+
+lessonsData["p1-2"] = {
+  title: 'Variables & Data Types',
+  phase: "Phase 1 - Core Java Masterclass",
+  html: `
+    <div class="step"><span class="stag">Technical coverage</span>
+      <p>Primitive types: byte, short, int, long, float, double, char, boolean - fixed size, stored directly. Reference types: objects, arrays, strings - store a pointer to data on the heap. Choosing the right type avoids both wasted memory and overflow bugs.</p>
+    </div>
+    <div class="step"><span class="stag">Industry usage</span>
+      <p>Financial systems use long (or BigDecimal) instead of int/double to avoid overflow and rounding errors on money. boolean flags drive feature toggles; char is common in encoding/parsing logic.</p>
+    </div>
+    <div class="step"><span class="stag">Mini project example</span>
+      <pre><code>long accountBalance = 15_000_000_00L; // paise, avoids int overflow
+boolean isPremiumUser = true;
+char grade = 'A';</code></pre>
+    </div>
+  `
+};
+
+
+lessonsData["p1-3"] = {
+  title: 'Operators & Type Casting',
+  phase: "Phase 1 - Core Java Masterclass",
+  html: `
+    <div class="step"><span class="stag">Technical coverage</span>
+      <p>Arithmetic (+ - * / %), relational (== != &lt; &gt;), logical (&& || !), bitwise (& | ^ ~), assignment, and the ternary operator. Casting: widening (int to long) happens automatically; narrowing (double to int) must be explicit and can lose data.</p>
+    </div>
+    <div class="step"><span class="stag">Industry usage</span>
+      <p>Casting shows up constantly when reading from a database (Object results cast to the real type) or parsing config values. Bitwise operators still back permission/flag systems (e.g., Unix file permissions, feature bitmasks).</p>
+    </div>
+    <div class="step"><span class="stag">Mini project example</span>
+      <pre><code>double price = 499.99;
+int roundedRupees = (int) price; // explicit narrowing cast -> 499
+String status = (stock > 0) ? "In Stock" : "Out of Stock";</code></pre>
+    </div>
+  `
+};
+
+
+lessonsData["p1-4"] = {
+  title: 'Control Statements & Loops',
+  phase: "Phase 1 - Core Java Masterclass",
+  html: `
+    <div class="step"><span class="stag">Technical coverage</span>
+      <p>if/else and switch for branching (modern Java supports switch expressions), for/while/do-while for repetition, break/continue to control flow inside loops.</p>
+    </div>
+    <div class="step"><span class="stag">Industry usage</span>
+      <p>Validation logic in every API endpoint branches with if/else. Batch jobs loop over thousands of database rows nightly - loop efficiency directly affects job runtime in production.</p>
+    </div>
+    <div class="step"><span class="stag">Mini project example</span>
+      <pre><code>for (Order order : orders) {
+    if (order.getStatus().equals("PENDING")) {
+        order.markShipped();
+    }
+}</code></pre>
+    </div>
+  `
+};
+
+
+lessonsData["p1-5"] = {
+  title: 'Arrays & Methods',
+  phase: "Phase 1 - Core Java Masterclass",
+  html: `
+    <div class="step"><span class="stag">Technical coverage</span>
+      <p>Arrays are fixed-size, same-type collections stored contiguously in memory - fast indexed access. Methods package reusable logic; overloading lets the same method name handle different parameter types.</p>
+    </div>
+    <div class="step"><span class="stag">Industry usage</span>
+      <p>Arrays back fixed lookup tables and low-level buffers (e.g., byte[] for file/network I/O). Methods are the basic unit of reuse in every service class you'll write.</p>
+    </div>
+    <div class="step"><span class="stag">Mini project example</span>
+      <pre><code>static double findMax(double[] prices) {
+    double max = prices[0];
+    for (double p : prices) if (p > max) max = p;
+    return max;
+}</code></pre>
+    </div>
+  `
+};
+
+
+lessonsData["p1-6"] = {
+  title: 'Recursion',
+  phase: "Phase 1 - Core Java Masterclass",
+  html: `
+    <div class="step"><span class="stag">Technical coverage</span>
+      <p>A method calling itself, with a base case (stops recursion) and a recursive case (reduces the problem). Each call adds a stack frame; too many unbounded calls cause a StackOverflowError.</p>
+    </div>
+    <div class="step"><span class="stag">Industry usage</span>
+      <p>Recursion naturally models tree-shaped problems: scanning nested folders, parsing nested JSON/XML, and backtracking algorithms (e.g., generating permutations).</p>
+    </div>
+    <div class="step"><span class="stag">Mini project example</span>
+      <pre><code>static int factorial(int n) {
+    if (n <= 1) return 1;       // base case
+    return n * factorial(n-1);  // recursive case
+}</code></pre>
+    </div>
+  `
+};
+
+
+lessonsData["p1-7"] = {
+  title: 'Strings, StringBuilder, StringBuffer',
+  phase: "Phase 1 - Core Java Masterclass",
+  html: `
+    <div class="step"><span class="stag">Technical coverage</span>
+      <p>String is immutable - every modification creates a new object. StringBuilder is mutable and fast but not thread-safe. StringBuffer is mutable and thread-safe (synchronized methods), so slightly slower.</p>
+    </div>
+    <div class="step"><span class="stag">Industry usage</span>
+      <p>Building SQL queries, log lines, or large reports in a loop with plain String concatenation silently creates thousands of throwaway objects - a classic production performance bug. StringBuilder is the standard fix.</p>
+    </div>
+    <div class="step"><span class="stag">Mini project example</span>
+      <pre><code>StringBuilder sb = new StringBuilder();
+for (String item : cartItems) sb.append(item).append(", ");
+String summary = sb.toString();</code></pre>
+    </div>
+  `
+};
+
+
+lessonsData["p1-8"] = {
+  title: 'Wrapper Classes',
+  phase: "Phase 1 - Core Java Masterclass",
+  html: `
+    <div class="step"><span class="stag">Technical coverage</span>
+      <p>Integer, Double, Boolean, etc. wrap primitives as objects, enabling autoboxing/unboxing. Needed because Java's Collections (List, Map, Set) can only store objects, never raw primitives.</p>
+    </div>
+    <div class="step"><span class="stag">Industry usage</span>
+      <p>List&lt;Integer&gt; scores, parsing user input with Integer.parseInt, and the Integer cache (-128 to 127 reused automatically) are everyday realities - and a classic interview trap when comparing boxed Integers with ==.</p>
+    </div>
+    <div class="step"><span class="stag">Mini project example</span>
+      <pre><code>List<Integer> scores = new ArrayList<>();
+scores.add(Integer.parseInt("95"));
+int total = scores.get(0) + 5; // auto-unboxed</code></pre>
+    </div>
+  `
+};
+
+
+lessonsData["p1-9"] = {
+  title: 'Access Modifiers & Packages',
+  phase: "Phase 1 - Core Java Masterclass",
+  html: `
+    <div class="step"><span class="stag">Technical coverage</span>
+      <p>public (everywhere), protected (package + subclasses), default/package-private (same package only), private (same class only). Packages group related classes and are the backbone of encapsulation across modules.</p>
+    </div>
+    <div class="step"><span class="stag">Industry usage</span>
+      <p>Layered architectures (controller/service/repository) rely on this daily: repository fields stay private, only accessed through public service methods - preventing other layers from touching raw data directly.</p>
+    </div>
+    <div class="step"><span class="stag">Mini project example</span>
+      <pre><code>class OrderRepository { // package-private
+    public Order findById(String id) { ... }
+}
+public class OrderService {
+    private final OrderRepository repo; // only service exposes logic
+}</code></pre>
+    </div>
+  `
+};
+
+
+lessonsData["p1-10"] = {
+  title: 'static / final / this / super',
+  phase: "Phase 1 - Core Java Masterclass",
+  html: `
+    <div class="step"><span class="stag">Technical coverage</span>
+      <p>static: belongs to the class, shared across all instances. final: makes a variable constant, a method non-overridable, or a class non-extendable. this: refers to the current object. super: refers to the parent class (its constructor or methods).</p>
+    </div>
+    <div class="step"><span class="stag">Industry usage</span>
+      <p>Utility classes (Math, a custom StringUtils) use static methods. Config constants use final. Entity classes almost always call super() to initialize inherited fields correctly.</p>
+    </div>
+    <div class="step"><span class="stag">Mini project example</span>
+      <pre><code>class Person {
+    Person(String name) { this.name = name; }
+}
+class Employee extends Person {
+    static int totalEmployees = 0;
+    Employee(String name) { super(name); totalEmployees++; }
+}</code></pre>
+    </div>
+  `
+};
+
+
+lessonsData["p1-11"] = {
+  title: 'Constructors & Constructor Chaining',
+  phase: "Phase 1 - Core Java Masterclass",
+  html: `
+    <div class="step"><span class="stag">Technical coverage</span>
+      <p>Constructors initialize new objects. this(...) chains to another constructor in the same class; super(...) chains to the parent's constructor. Chaining avoids duplicating initialization logic.</p>
+    </div>
+    <div class="step"><span class="stag">Industry usage</span>
+      <p>Entity and DTO classes commonly expose multiple constructors for different creation scenarios (e.g., with/without an auto-generated ID) - a lighter alternative to the full Builder pattern you'll meet in Phase 15.</p>
+    </div>
+    <div class="step"><span class="stag">Mini project example</span>
+      <pre><code>class Product {
+    String name; double price;
+    Product(String name) { this(name, 0.0); }      // chains below
+    Product(String name, double price) {
+        this.name = name; this.price = price;
+    }
+}</code></pre>
+    </div>
+  `
+};
+
+
+lessonsData["p1-12"] = {
+  title: 'OOP: Encapsulation, Abstraction, Inheritance, Polymorphism',
+  phase: "Phase 1 - Core Java Masterclass",
+  html: `
+    <div class="step"><span class="stag">Technical coverage</span>
+      <p>The four pillars. Encapsulation: hide internal data behind private fields + public getters/setters. Abstraction: expose only what's needed through interfaces/abstract classes, hide implementation detail. Inheritance: reuse code via extends. Polymorphism: the same method call behaves differently depending on the actual object (overriding) or its arguments (overloading).</p>
+    </div>
+    <div class="step"><span class="stag">Industry usage</span>
+      <p>Virtually every enterprise Java codebase is structured on these four principles - e.g., a PaymentProcessor interface (abstraction) implemented separately by CreditCardProcessor and UpiProcessor, called polymorphically without the calling code knowing which one it got.</p>
+    </div>
+    <div class="step"><span class="stag">Mini project example</span>
+      <pre><code>abstract class Shape { abstract double area(); }
+class Circle extends Shape {
+    double r;
+    double area() { return Math.PI * r * r; }
+}
+class Rectangle extends Shape {
+    double w, h;
+    double area() { return w * h; }
+}
+// Shape s = new Circle(); s.area(); -> polymorphic call</code></pre>
+    </div>
+  `
+};
+
+
+lessonsData["p1-13"] = {
+  title: 'Association, Aggregation, Composition',
+  phase: "Phase 1 - Core Java Masterclass",
+  html: `
+    <div class="step"><span class="stag">Technical coverage</span>
+      <p>Association: any general relationship between two classes. Aggregation: a "has-a" relationship where the part can exist independently of the whole (weak ownership). Composition: a "has-a" relationship where the part cannot exist without the whole (strong ownership) - destroying the whole destroys the part.</p>
+    </div>
+    <div class="step"><span class="stag">Industry usage</span>
+      <p>This directly shapes database/JPA design: aggregation often maps to a @OneToMany where the child row can survive the parent being deleted; composition maps to relationships with cascade delete, where child rows are removed automatically with the parent.</p>
+    </div>
+    <div class="step"><span class="stag">Mini project example</span>
+      <pre><code>class Engine {}              // composition: dies with the car
+class Car { private final Engine engine = new Engine(); }
+
+class Player {}               // aggregation: can exist without a team
+class Team { private List<Player> players; }</code></pre>
+    </div>
+  `
+};
+
+
+lessonsData["p1-14"] = {
+  title: 'Inner / Anonymous / Nested Classes',
+  phase: "Phase 1 - Core Java Masterclass",
+  html: `
+    <div class="step"><span class="stag">Technical coverage</span>
+      <p>An inner class is tied to an instance of its outer class. A static nested class is independent of any outer instance. An anonymous class is a one-off, unnamed implementation created inline - commonly used for quick, single-use behavior.</p>
+    </div>
+    <div class="step"><span class="stag">Industry usage</span>
+      <p>Before Java 8 lambdas, anonymous classes were the standard way to implement listeners and comparators inline. Static nested classes are still common for helper types like a Builder tied conceptually to its outer class.</p>
+    </div>
+    <div class="step"><span class="stag">Mini project example</span>
+      <pre><code>List<String> names = new ArrayList<>(List.of("Zara","Amit"));
+Collections.sort(names, new Comparator<String>() {
+    public int compare(String a, String b) { return a.length() - b.length(); }
+});</code></pre>
+    </div>
+  `
+};
+
+
+lessonsData["p1-15"] = {
+  title: 'Object class: equals(), hashCode(), clone(), finalize()',
+  phase: "Phase 1 - Core Java Masterclass",
+  html: `
+    <div class="step"><span class="stag">Technical coverage</span>
+      <p>Every class implicitly extends Object. equals() defines logical equality (override it to compare values, not memory addresses). hashCode() must stay consistent with equals() - required for correct behavior in HashMap/HashSet. clone() creates a copy (shallow by default). finalize() is a deprecated GC cleanup hook, no longer relied on.</p>
+    </div>
+    <div class="step"><span class="stag">Industry usage</span>
+      <p>Overriding equals() and hashCode() correctly is mandatory the moment you use a custom object as a HashMap key or store it in a HashSet - a very common interview and real-bug source. IDEs and Lombok generate these automatically in real projects.</p>
+    </div>
+    <div class="step"><span class="stag">Mini project example</span>
+      <pre><code>class Student {
+    String id;
+    public boolean equals(Object o) {
+        if (!(o instanceof Student s)) return false;
+        return this.id.equals(s.id);
+    }
+    public int hashCode() { return id.hashCode(); }
+}
+// Now Set<Student> correctly treats same-id students as duplicates</code></pre>
+    </div>
+  `
+};
+
+function buildLessonSide(){
+  const side = document.getElementById('lesson-side');
+  side.innerHTML = phases.map((p,pi) => `
+    <div class="ph ${pi===0?'open':''}" id="ph-${p.n}">
+      <div class="ph-head" onclick="document.getElementById('ph-${p.n}').classList.toggle('open')">
+        <span><span class="pn">P${p.n}</span>${p.name}</span>
+      </div>
+      <div class="ph-topics">
+        ${p.topics.map((t,ti) => {
+          const id = 'p'+p.n+'-'+ti;
+          const done = lessonsData[id] ? 'done' : '';
+          return `<button class="topic-link ${done}" id="link-${id}" onclick="selectLesson('${id}','${t.replace(/'/g,"\\'")}')"><span class="dot"></span>${t}</button>`;
+        }).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function selectLesson(id, title){
+  document.querySelectorAll('.topic-link').forEach(b=>b.classList.remove('active'));
+  const link = document.getElementById('link-'+id);
+  if(link) link.classList.add('active');
+  const main = document.getElementById('lesson-main');
+  const lesson = lessonsData[id];
+  if(lesson){
+    main.innerHTML = `<div class="lesson"><div class="crumb">${lesson.phase}</div><h1>${lesson.title}</h1>${lesson.html}
+      <div class="lesson-nav"><span></span><button onclick="window.scrollTo({top:0,behavior:'smooth'})">Back to top</button></div></div>`;
+  } else {
+    main.innerHTML = `<div class="locked-card"><div class="lock">&#128274;</div><h3 style="color:var(--text);margin-bottom:8px;">${title}</h3>
+      <p>Not taught yet. Continue the lesson sequence in chat and I'll add this topic here once we cover it.</p></div>`;
+  }
+  main.scrollIntoView({behavior:'instant', block:'start'});
+}
+
+buildLessonSide();
+
+</script>
+</body>
+</html>

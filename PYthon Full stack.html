@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Engineer &amp; Agentic AI Architect Roadmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eaf0f7;--ink:#14213d;--mute:#4b5a75;--card:#fff;--line:#c4d0e2;--blue:#2f5bff;--amber:#e69500;--teal:#0e8f7e;--r:14px}
+@media (prefers-color-scheme:dark){:root{--bg:#0e1626;--ink:#e8eefb;--mute:#9aaac6;--card:#16223a;--line:#2a3a5c;--blue:#6f8fff;--amber:#ffb020;--teal:#2ec4ae}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "IBM Plex Sans",system-ui,sans-serif}
+h1,h2,h3{font-family:"Bricolage Grotesque",system-ui,sans-serif;margin:0;line-height:1.1}
+header{max-width:860px;margin:0 auto;padding:64px 24px 24px}
+h1{font-size:clamp(2.2rem,6vw,3.8rem);font-weight:800;letter-spacing:-.02em}
+header p{max-width:60ch;color:var(--mute);font-size:1.05rem}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.chips span{padding:4px 12px;border-radius:99px;border:1.5px solid var(--line);font-size:.85rem}
+.chips span:nth-child(1){border-color:var(--blue)}.chips span:nth-child(2){border-color:var(--teal)}.chips span:nth-child(3){border-color:var(--amber)}
+.bar{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 24px}
+.bar div{max-width:860px;margin:0 auto;display:flex;align-items:center;gap:14px;font-size:.9rem}
+.track{flex:1;height:8px;border-radius:9px;background:var(--line);overflow:hidden}
+.fill{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--teal));transition:width .6s cubic-bezier(.2,.8,.2,1)}
+main{max-width:860px;margin:0 auto;padding:30px 24px 80px;position:relative}
+.rail{position:absolute;left:43px;top:50px;bottom:100px;width:4px;background:var(--line);border-radius:4px}
+.rail i{display:block;width:100%;height:0;background:var(--blue);border-radius:4px}
+.phase{margin:36px 0 10px 84px;font:700 1.15rem "Bricolage Grotesque",sans-serif;color:var(--teal)}
+.stage{position:relative;margin:0 0 14px 84px}
+.dot{position:absolute;left:-58px;top:16px;width:34px;height:34px;border-radius:50%;background:var(--bg);border:3px solid var(--line);display:grid;place-items:center;font:700 .85rem "Bricolage Grotesque",sans-serif;transition:.4s}
+.stage.active .dot{border-color:var(--blue);color:var(--blue);transform:scale(1.15)}
+.stage.done .dot{background:var(--teal);border-color:var(--teal);color:#fff}
+.stage.active .dot::after{content:"";position:absolute;inset:-7px;border-radius:50%;border:2px solid var(--blue);animation:ping 1.8s ease-out infinite}
+@keyframes ping{from{opacity:.8;transform:scale(.8)}to{opacity:0;transform:scale(1.5)}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.head{width:100%;display:flex;align-items:center;gap:12px;padding:16px 18px;border:0;background:none;color:inherit;text-align:left;cursor:pointer;font:inherit}
+.head:focus-visible{outline:3px solid var(--blue);outline-offset:-3px}
+.head h2{font-size:1.3rem;flex:1}
+.meta{font-size:.82rem;color:var(--mute);white-space:nowrap}
+.chev{transition:transform .3s}.open .chev{transform:rotate(90deg)}
+.body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s ease}
+.open .body{grid-template-rows:1fr}
+.inner{overflow:hidden}
+.pad{padding:0 18px 18px}
+.goal{color:var(--mute);margin:0 0 10px}
+.pad ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:4px 18px}
+.pad li label{display:flex;gap:9px;padding:4px 0;cursor:pointer;font-size:.95rem}
+.pad input{accent-color:var(--teal);width:17px;height:17px;margin-top:3px;flex:none}
+.pad input:checked+span{color:var(--mute);text-decoration:line-through}
+.proj{margin-top:12px;padding:10px 14px;border-left:4px solid var(--amber);background:color-mix(in srgb,var(--amber) 12%,transparent);border-radius:0 8px 8px 0;font-size:.92rem}
+.tools{display:flex;gap:12px;margin:0 0 6px 84px}
+.tools button{font:inherit;font-size:.85rem;padding:5px 12px;border-radius:99px;border:1.5px solid var(--line);background:none;color:var(--ink);cursor:pointer}
+.tools button:hover{border-color:var(--blue)}
+footer{max-width:860px;margin:0 auto;padding:0 24px 60px;color:var(--mute);font-size:.9rem}
+@media(max-width:560px){.rail{left:19px}.stage,.phase,.tools{margin-left:52px}.dot{left:-45px;width:30px;height:30px}.meta{display:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+<h1>From Python to Agentic AI Architect</h1>
+<p>A 15-stage path through AI, Generative AI and Agentic AI. Open a stage, tick off topics as you learn them, and watch the line fill as you advance. Progress saves in this browser.</p>
+<div class="chips"><span>Foundations</span><span>Generative AI</span><span>Agentic AI &amp; Production</span></div>
+</header>
+<div class="bar"><div><b id="pct">0%</b><div class="track"><div class="fill" id="fill"></div></div><span id="cnt"></span></div></div>
+<main id="map"><div class="rail"><i id="rail"></i></div></main>
+<footer>Suggested pace: 12 to 18 months at 10 to 15 hours a week. Build the project at the end of every stage before moving on. Projects on your GitHub are your real certificate.</footer>
+<script>
+const P=[
+["Foundations",[
+["Python","4 to 6 weeks","Master the language the whole field runs on.",["Syntax, variables, loops, functions","Data structures: lists, dicts, sets, tuples","OOP: classes, inheritance, dunder methods","Modules, packages, virtual environments","File I/O, JSON, CSV, regex","Error handling and logging","Decorators, generators, context managers","Async/await and concurrency","Type hints and Pydantic","NumPy, Pandas, Matplotlib","Git, GitHub, CLI, Linux basics","REST APIs with requests, FastAPI intro","Testing with pytest"],"CLI expense tracker plus a data-cleaning script on a real CSV."],
+["AI Basics","2 weeks","Understand what AI is and the math under it.",["AI vs ML vs DL vs GenAI","History: symbolic AI to modern LLMs","Linear algebra: vectors, matrices, dot product","Calculus: derivatives, gradients, chain rule","Probability and statistics, Bayes","Optimization intuition","Data types, features, labels","Ethics, bias, safety basics"],"Visual notes on gradient descent with a small NumPy demo."],
+["Machine Learning","6 to 8 weeks","Learn to train and judge classical models.",["Supervised vs unsupervised vs reinforcement","Linear and logistic regression","Decision trees, random forests, XGBoost","KNN, SVM, Naive Bayes","Clustering: K-Means, DBSCAN, PCA","Feature engineering and scaling","Train/validation/test split, cross-validation","Metrics: accuracy, F1, ROC-AUC, RMSE","Overfitting, regularization, bias-variance","Scikit-learn pipelines","Hyperparameter tuning","Experiment tracking with MLflow"],"End-to-end house price or churn predictor, served via FastAPI."],
+["Deep Learning","6 to 8 weeks","Build and train neural networks from scratch.",["Perceptron and MLP","Activation functions, loss functions","Backpropagation and autograd","Optimizers: SGD, Adam, schedulers","PyTorch tensors, Dataset, DataLoader","CNNs and image classification","RNNs, LSTMs, GRUs","Batch norm, dropout, residual connections","Transfer learning","GPUs, mixed precision, Colab","Autoencoders, VAEs, GANs overview","Debugging training runs"],"Image classifier with transfer learning and a small text classifier."]]],
+["Generative AI Core",[
+["Transformers","4 to 6 weeks","Understand the architecture behind every modern LLM.",["Tokenization: BPE, WordPiece","Embeddings and positional encoding","Self-attention, queries, keys, values","Multi-head attention","Encoder, decoder, encoder-decoder models","Layer norm, residuals, feed-forward blocks","KV cache, FlashAttention, RoPE","Mixture of Experts","Hugging Face Transformers library","Read 'Attention Is All You Need'","Karpathy: build GPT from scratch"],"Code a mini-GPT in PyTorch and train it on a small text corpus."],
+["LLMs","4 weeks","Know how large models are trained, run and evaluated.",["Pretraining, SFT, RLHF, DPO","Scaling laws, context windows","Closed models: GPT, Claude, Gemini","Open models: Llama, Mistral, Qwen, DeepSeek","Sampling: temperature, top-p, top-k","Structured output and function calling","Multimodal: vision, audio, video","Quantization, GGUF, Ollama, vLLM","Benchmarks and evals","Hallucinations and their causes","Cost, latency and token economics","Using APIs (Anthropic, OpenAI, Gemini) with streaming"],"Chatbot with streaming, memory and local-model fallback."],
+["Prompt Engineering","2 to 3 weeks","Get reliable behavior from models on demand.",["System, user and assistant roles","Zero-shot, few-shot, chain-of-thought","Role, format and constraint design","XML or JSON structured prompts","Prompt chaining and decomposition","Self-consistency, ReAct, tree-of-thought","Prompt injection and jailbreak defense","Prompt versioning and evaluation sets","Meta-prompting and prompt optimization","Context engineering: what goes in the window"],"A prompt library with an automated eval suite scoring each version."],
+["RAG","5 to 6 weeks","Ground models in your own data.",["Document loading and parsing (PDF, HTML, tables)","Chunking strategies","Embedding models and similarity search","Vector DBs: FAISS, Chroma, Qdrant, pgvector, Pinecone","Hybrid search: BM25 plus vectors","Reranking, query rewriting, HyDE","Metadata filtering and multi-index routing","Advanced: GraphRAG, agentic RAG, multimodal RAG","Citations and answer grounding","Evaluation: RAGAS, faithfulness, recall","Caching and cost optimization"],"Chat-with-your-docs app with citations, reranking and eval dashboard."],
+["Fine Tuning","4 to 5 weeks","Adapt models when prompting and RAG are not enough.",["When to fine-tune vs RAG vs prompt","Dataset creation and cleaning","Full fine-tuning vs PEFT","LoRA, QLoRA, adapters","Instruction tuning and chat templates","Preference tuning: RLHF, DPO, GRPO","Tools: Unsloth, TRL, Axolotl, PEFT","Distillation and synthetic data","Evaluating tuned models","Merging and exporting models","Hosted fine-tuning APIs"],"QLoRA-tune an open model for a niche task and compare it with the base."]]],
+["Agentic AI",[
+["Agents","4 weeks","Let models plan, use tools and act.",["Agent loop: perceive, reason, act, observe","Tool and function calling","ReAct and plan-and-execute patterns","Short-term and long-term memory","Reflection and self-correction","Code-execution agents and sandboxes","Browser and computer-use agents","Guardrails, permissions, human-in-the-loop","Agent evaluation and tracing","Failure modes: loops, cost blowups"],"Research agent that searches, reads, writes and cites."],
+["LangGraph","4 weeks","Build stateful, controllable agent workflows.",["LangChain basics: runnables, LCEL","Graphs: nodes, edges, state","Conditional edges and routing","Checkpointers and persistence","Human approval interrupts","Streaming and time travel","Subgraphs and parallel branches","Supervisor and swarm patterns","LangSmith tracing and debugging"],"Customer-support workflow with routing, approval and memory."],
+["CrewAI","2 to 3 weeks","Orchestrate role-based teams of agents.",["Agents, tasks, crews","Roles, goals, backstories","Sequential vs hierarchical processes","Tools and custom tools","Flows and event-driven pipelines","Memory and knowledge sources","Compare with AutoGen, OpenAI Agents SDK, Claude Agent SDK"],"Content or market-research crew with planner, researcher and editor."],
+["MCP","3 weeks","Connect agents to tools and data through an open standard.",["Why MCP: clients, servers, hosts","Tools, resources, prompts","Transports: stdio, HTTP","Build an MCP server in Python","Connect to Claude, IDEs and agents","Auth and security model","Tool design for LLM clarity","Existing servers: GitHub, Drive, databases","A2A and agent interoperability"],"Custom MCP server exposing your database and APIs to an agent."],
+["Multi-Agent Systems","4 to 5 weeks","Design coordinated agent teams that scale.",["Orchestrator-worker, pipeline, debate patterns","Shared state and message passing","Task decomposition and delegation","Conflict resolution and consensus","Context isolation and handoffs","Cost, latency and reliability trade-offs","Evaluating multi-agent behavior","Safety: runaway loops, privilege limits"],"Autonomous software-team simulation: planner, coder, tester, reviewer."]]],
+["Production",[
+["AI Engineering","6 weeks","Treat AI apps as real software with measurable quality.",["Evals: unit, LLM-as-judge, regression suites","Observability: Langfuse, LangSmith, OpenTelemetry","Data pipelines and feature stores","Model routing and gateways","Caching, batching, rate limits","Security: injection, PII, secrets, red-teaming","Governance, compliance, responsible AI","System design for AI products","Cost modelling and FinOps","Frontend: Streamlit, Gradio, Next.js"],"Full AI product spec with architecture diagram, evals and cost model."],
+["Production Deployment","5 to 6 weeks","Ship, scale and maintain AI systems.",["Docker and Kubernetes basics","FastAPI services, WebSockets, SSE","Cloud: AWS Bedrock, Azure, GCP Vertex","Serverless vs GPU serving","vLLM, TGI, Triton inference","CI/CD with GitHub Actions","Monitoring, alerting, drift detection","A/B testing and gradual rollouts","Autoscaling and queues","Infrastructure as code: Terraform","MLOps and LLMOps lifecycle","Portfolio, resume and interview prep"],"Deploy a multi-agent RAG product publicly, with monitoring and CI/CD."]]]
+];
+const map=document.getElementById('map'),KEY='ai-roadmap-v1';
+let st={};try{st=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}};
+let n=0,total=0;const stages=[];
+P.forEach(([ph,list])=>{
+ map.insertAdjacentHTML('beforeend',`<div class="phase">${ph}</div>`);
+ list.forEach(([name,time,goal,topics,proj])=>{
+  n++;total+=topics.length;const id=n;
+  const el=document.createElement('section');el.className='stage';
+  el.innerHTML=`<div class="dot">${id}</div><div class="card"><button class="head" aria-expanded="false"><h2>${name}</h2><span class="meta"></span><span class="meta">${time}</span><span class="chev">&#9656;</span></button><div class="body"><div class="inner"><div class="pad"><p class="goal">${goal}</p><ul>${topics.map((t,i)=>`<li><label><input type="checkbox" data-k="${id}-${i}"${st[id+'-'+i]?' checked':''}><span>${t}</span></label></li>`).join('')}</ul><div class="proj"><b>Build:</b> ${proj}</div></div></div></div></div>`;
+  map.appendChild(el);stages.push({el,id,count:topics.length});
+  const head=el.querySelector('.head');
+  head.onclick=()=>{const o=el.classList.toggle('open');head.setAttribute('aria-expanded',o)};
+ });
+});
+map.addEventListener('change',e=>{if(e.target.dataset.k){st[e.target.dataset.k]=e.target.checked;save();update()}});
+function update(){
+ let done=0,active=null;
+ stages.forEach(s=>{
+  const c=[...s.el.querySelectorAll('input')].filter(i=>i.checked).length;done+=c;
+  s.el.querySelector('.meta').textContent=c+'/'+s.count;
+  s.el.classList.toggle('done',c===s.count);
+  s.el.classList.remove('active');
+  if(!active&&c<s.count){active=s;s.el.classList.add('active')}
+ });
+ const p=Math.round(done/total*100);
+ document.getElementById('pct').textContent=p+'%';
+ document.getElementById('fill').style.width=p+'%';
+ document.getElementById('cnt').textContent=done+' / '+total+' topics';
+}
+function rail(){
+ const r=map.getBoundingClientRect(),h=r.height;
+ const f=Math.min(1,Math.max(0,(innerHeight*.6-r.top)/h));
+ document.getElementById('rail').style.height=(f*100)+'%';
+}
+const tools=document.createElement('div');tools.className='tools';
+tools.innerHTML='<button id="ex">Expand all</button><button id="co">Collapse all</button>';
+map.insertBefore(tools,map.children[1]);
+document.getElementById('ex').onclick=()=>stages.forEach(s=>s.el.classList.add('open'));
+document.getElementById('co').onclick=()=>stages.forEach(s=>s.el.classList.remove('open'));
+addEventListener('scroll',rail,{passive:true});addEventListener('resize',rail);
+update();rail();
+const a=stages.find(s=>s.el.classList.contains('active'));if(a)a.el.classList.add('open');
+</script>
+</body>
+</html>
